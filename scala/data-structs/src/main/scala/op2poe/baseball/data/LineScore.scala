@@ -9,7 +9,7 @@ final class LineScore(private val line: Array[Int]) extends Iterable[Int] {
   require(line.length > 0)
   
   def iterator: Iterator[Int] = 
-    if (line.last == -1) line.dropRight(1).iterator else line.iterator
+    if (line.last == -1) line.init.iterator else line.iterator
   
   def toPrettyString: String = {
       val slices = for (i <- List.range(0, line.length, 3)) yield line.slice(i, i + 3)
