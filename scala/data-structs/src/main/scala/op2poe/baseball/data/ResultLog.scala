@@ -8,9 +8,9 @@ final class ResultLog {
     results ::= r
   }
 
-  def sum = results.foldLeft(new Runs(0, 0))(_ + _)
+  def sum = (new Runs(0, 0) /: results)(_ + _)
   
-  def last10 = results.take(10).foldLeft(new WLT())((wlt, r) => wlt.addResult(r))
+  def last10 = (new WLT() /: results.take(10))(_.addResult(_))
 
   def streak: String = {
     Streak.fromResults(results)
