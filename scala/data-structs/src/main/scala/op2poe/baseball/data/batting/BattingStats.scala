@@ -2,7 +2,7 @@ package op2poe.baseball.data.batting
 
 trait BattingStats {
 
-  def plateAppearances: Int
+  def atBats: Int
   
   def singles: Int
   
@@ -31,7 +31,7 @@ trait BattingStats {
   final def totalBases = singles + 2 * doubles + 3 * triples + 4 * homeruns
   
   // We do not include Times Reached on Defensive (e.g. Catcher's) Interference. 
-  final def atBats = plateAppearances - walks - sacrificeHits - sacrificeFlies - hitByPitch
+  final def plateAppearances = atBats + walks + sacrificeHits + sacrificeFlies + hitByPitch
   
   final def battingAverage = {
     val ab = atBats
