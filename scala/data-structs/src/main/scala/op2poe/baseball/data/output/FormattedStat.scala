@@ -9,7 +9,7 @@ abstract class FormattedStat(private val name: String, val width: Int, private v
   def formatValue(value: Any): String
 
   protected final def formatString(s: String) =
-    ("%" + align.code + width + "s").format(name)
+    ("%" + align.code + width + "s").format(s)
 
 }
 
