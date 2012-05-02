@@ -10,17 +10,26 @@ final class FormattedStatLine(private val stats: FormattedStat*) {
     out.println(sb.toString)
   }
 
-  def printLine(out: LineWriter, values: AnyRef*) {
+  def printLine(out: LineWriter, values: List[Any]) {
+    val line = formatLine(values)
+    out.println(line)
+  }
+  
+  def formatLine(values: List[Any]) = {
     val sb = new StringBuilder
-    for ((f, v) <- stats.zip(values)) {
-      sb.append(f.formatValue(v))
+    val length = values.length
+    for (i <- 0 until values.length) {
+      val f = stats(i)
+      val v = values(i)
+      val s = f.formatValue(v)
+      sb.append(s)
     }
     sb.toString
   }
 
-  def separator(out: LineWriter, char: String) {
+  def separator(out: LineWriter, char: Char) {
     val totalWidth = (0 /: stats)((w, s) => w + s.width)
-    out.println(char * totalWidth)
+    out.println(char.toString * totalWidth)
   }
   
 }
