@@ -17,12 +17,8 @@ final class FormattedStatLine(private val stats: FormattedStat*) {
   
   def formatLine(values: List[Any]) = {
     val sb = new StringBuilder
-    val length = values.length
-    for (i <- 0 until values.length) {
-      val f = stats(i)
-      val v = values(i)
-      val s = f.formatValue(v)
-      sb.append(s)
+    for ((f, v) <- stats.zip(values)) {
+      sb.append(f.formatValue(v))
     }
     sb.toString
   }
