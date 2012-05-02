@@ -4,9 +4,9 @@ import scala.util.Sorting
 import op2poe.io.LineWriter
 import java.text.DecimalFormat
 import op2poe.baseball.data.GamesBehind
-import op2poe.baseball.data.output.FormattedStat
-import op2poe.baseball.data.output.HorizontalAlign
-import op2poe.baseball.data.output.FormattedStatLine
+import op2poe.baseball.io.text.FormattedStat
+import op2poe.baseball.io.text.HorizontalAlign
+import op2poe.baseball.io.text.FormattedStatLine
 
 final class Standings(ts: Iterable[Team]) {
 

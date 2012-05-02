@@ -1,4 +1,4 @@
-package op2poe.baseball.data.output
+package op2poe.baseball.io.text
 
 import op2poe.io.LineWriter
 
