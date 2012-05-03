@@ -1,9 +1,9 @@
 package op2poe.baseball.data.batting
 
-final class ArrayBattingStats private(values: Array[Int]) extends BattingStats {
+final class ArrayBattingStats private (values: Array[Int]) extends BattingStats {
 
   require(values.length == 12)
-  
+
   def atBats(): Int = { values(0) }
 
   def singles(): Int = { values(1) }
@@ -28,27 +28,29 @@ final class ArrayBattingStats private(values: Array[Int]) extends BattingStats {
 
   def runsBattedIn(): Int = { values(11) }
 
-  def + (other: BattingStats): BattingStats = {
+  def add(ab: Int = 0, s: Int = 0, doubles: Int = 0, triples: Int = 0, hr: Int = 0,
+		  so: Int = 0, bb: Int = 0, sh: Int = 0, sf: Int = 0, hbp: Int = 0, r: Int = 0,
+		  rbi: Int = 0): BattingStats = {
     val sum = Array[Int](12)
-    values(0) = atBats + other.atBats
-    values(1) = singles + other.singles
-    values(2) = doubles + other.doubles
-    values(3) = triples + other.triples
-    values(4) = homeruns + other.homeruns
-    values(5) = strikeouts + other.strikeouts
-    values(6) = walks + other.walks
-    values(7) = sacrificeHits + other.sacrificeHits
-    values(8) = sacrificeFlies + other.sacrificeFlies
-    values(9) = hitByPitch + other.hitByPitch
-    values(10) = runs + other.runs
-    values(11) = runsBattedIn + other.runsBattedIn
+    values(0) = atBats + ab
+    values(1) = singles + s
+    values(2) = this.doubles + doubles
+    values(3) = this.triples + triples
+    values(4) = homeruns + hr
+    values(5) = strikeouts + so
+    values(6) = walks + bb
+    values(7) = sacrificeHits + sh
+    values(8) = sacrificeFlies + sf
+    values(9) = hitByPitch + hbp
+    values(10) = runs + r
+    values(11) = runsBattedIn + rbi
     new ArrayBattingStats(values)
   }
-  
+
 }
 
 object ArrayBattingStats {
-  
+
   def empty = new ArrayBattingStats(new Array[Int](12))
-  
+
 }
