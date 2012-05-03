@@ -53,4 +53,6 @@ trait BattingStats {
   
   final def ops = onBaseAverage + sluggingAverage
   
+  def + (other: BattingStats): BattingStats
+  
 }
