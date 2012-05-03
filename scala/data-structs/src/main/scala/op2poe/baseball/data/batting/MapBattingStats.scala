@@ -53,3 +53,9 @@ final class MapBattingStats extends BattingStats {
     sum
   }
 }
+
+object MapBattingStats {
+  
+  def empty = new MapBattingStats
+  
+}
