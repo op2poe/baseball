@@ -2,12 +2,12 @@ package op2poe.baseball.data.batting
 
 object ArrayBattingStatsJUnitTest extends App {
 
-  testBabeRuths1921Line
+  testBabeRuths1921Line()
   
   def testBabeRuths1921Line() {
     val stats = ArrayBattingStats(
         ab = 540,
-        s = 204 - (44 + 16 + 59),
+        h = 204,
         doubles = 44,
         triples = 16,
         hr = 59,

@@ -12,7 +12,7 @@ final class MapBattingStats extends BattingStats {
 
   def atBats(): Int = { map("AB") }
 
-  def singles(): Int = { map("S") }
+  def hits(): Int = { map("H") }
 
   def doubles(): Int = { map("2B") }
 
@@ -34,12 +34,12 @@ final class MapBattingStats extends BattingStats {
 
   def runsBattedIn(): Int = { map("RBI") }
 
-  def add(ab: Int = 0, s: Int = 0, doubles: Int = 0, triples: Int = 0, hr: Int = 0,
+  def add(ab: Int = 0, h: Int = 0, doubles: Int = 0, triples: Int = 0, hr: Int = 0,
 		  so: Int = 0, bb: Int = 0, sh: Int = 0, sf: Int = 0, hbp: Int = 0, r: Int = 0,
 		  rbi: Int = 0): BattingStats = {
     val sum = new MapBattingStats
     sum.map("AB") = atBats + ab
-    sum.map("S") = singles + s
+    sum.map("H") = hits + h
     sum.map("2B") = this.doubles + doubles
     sum.map("3B") = this.triples + triples
     sum.map("HR") = homeruns + hr
@@ -50,7 +50,13 @@ final class MapBattingStats extends BattingStats {
     sum.map("HBP") = hitByPitch + hbp
     sum.map("R") = runs + r
     sum.map("RBI") = runsBattedIn + rbi
+    sum.sanityCheck()
     sum
+  }
+  
+  private def sanityCheck() {
+    require(map.values.forall(_ >= 0))
+    checkInvariants()
   }
 }
 
@@ -60,11 +66,11 @@ object MapBattingStats {
 
   // TODO: Identical code in the ArrayBattingStats companion object.
   // Can we eliminate this duplication?
-  def apply(ab: Int = 0, s: Int = 0, doubles: Int = 0, triples: Int = 0, hr: Int = 0,
+  def apply(ab: Int = 0, h: Int = 0, doubles: Int = 0, triples: Int = 0, hr: Int = 0,
 		  so: Int = 0, bb: Int = 0, sh: Int = 0, sf: Int = 0, hbp: Int = 0, r: Int = 0,
 		  rbi: Int = 0): BattingStats = {
     val stats = empty
-    stats.add(ab, s, doubles, triples, hr, so, bb, sh, sf, hbp, r, rbi)
+    stats.add(ab, h, doubles, triples, hr, so, bb, sh, sf, hbp, r, rbi)
   }
   
 }

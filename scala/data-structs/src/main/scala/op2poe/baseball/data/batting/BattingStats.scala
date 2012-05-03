@@ -4,7 +4,7 @@ trait BattingStats {
 
   def atBats: Int
   
-  def singles: Int
+  def hits: Int
   
   def doubles: Int
   
@@ -26,7 +26,7 @@ trait BattingStats {
   
   def runsBattedIn: Int
   
-  final def hits = singles + doubles + triples + homeruns
+  final def singles = hits - (doubles + triples + homeruns)
   
   final def totalBases = singles + 2 * doubles + 3 * triples + 4 * homeruns
   
@@ -53,14 +53,28 @@ trait BattingStats {
   
   final def ops = onBaseAverage + sluggingAverage
 
-  def add(ab: Int = 0, s: Int = 0, doubles:Int = 0, triples: Int = 0, hr: Int = 0,
+  def add(ab: Int = 0, h: Int = 0, doubles:Int = 0, triples: Int = 0, hr: Int = 0,
       so: Int = 0, bb: Int = 0, sh: Int = 0, sf:Int = 0, hbp: Int = 0, r: Int = 0,
       rbi: Int = 0): BattingStats
 
   final def +(other: BattingStats): BattingStats = {
-    add(other.atBats, other.singles, other.doubles, other.triples, other.homeruns,
-    	other.strikeouts, other.walks, other.sacrificeHits, other.sacrificeFlies,
-    	other.hitByPitch, other.runs, other.runsBattedIn)
+    add(ab = other.atBats, 
+        h = other.hits, 
+        doubles = other.doubles, 
+        triples = other.triples, 
+        hr = other.homeruns,
+    	so = other.strikeouts, 
+    	bb = other.walks, 
+    	sh = other.sacrificeHits, 
+    	sf = other.sacrificeFlies,
+    	hbp = other.hitByPitch, 
+    	r = other.runs, 
+    	rbi = other.runsBattedIn)
+  }
+  
+  protected final def checkInvariants() {
+    require(hits >= (doubles + triples + homeruns))
+    require(atBats >= (hits + strikeouts))
   }
   
 }

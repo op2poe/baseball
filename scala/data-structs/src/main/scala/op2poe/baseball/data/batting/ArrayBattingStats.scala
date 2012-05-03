@@ -3,10 +3,12 @@ package op2poe.baseball.data.batting
 final class ArrayBattingStats private (values: Array[Int]) extends BattingStats {
 
   require(values.length == 12)
+  require(values.forall(_ >= 0))
+  checkInvariants()
 
   def atBats(): Int = { values(0) }
 
-  def singles(): Int = { values(1) }
+  def hits(): Int = { values(1) }
 
   def doubles(): Int = { values(2) }
 
@@ -28,12 +30,12 @@ final class ArrayBattingStats private (values: Array[Int]) extends BattingStats 
 
   def runsBattedIn(): Int = { values(11) }
 
-  def add(ab: Int = 0, s: Int = 0, doubles: Int = 0, triples: Int = 0, hr: Int = 0,
+  def add(ab: Int = 0, h: Int = 0, doubles: Int = 0, triples: Int = 0, hr: Int = 0,
 		  so: Int = 0, bb: Int = 0, sh: Int = 0, sf: Int = 0, hbp: Int = 0, r: Int = 0,
 		  rbi: Int = 0): BattingStats = {
     val sum = Array[Int](12)
     values(0) = atBats + ab
-    values(1) = singles + s
+    values(1) = hits + h
     values(2) = this.doubles + doubles
     values(3) = this.triples + triples
     values(4) = homeruns + hr
@@ -55,11 +57,11 @@ object ArrayBattingStats {
 
   // TODO: Identical code in the MapBattingStats companion object.
   // Can we eliminate this duplication?
-  def apply(ab: Int = 0, s: Int = 0, doubles: Int = 0, triples: Int = 0, hr: Int = 0,
+  def apply(ab: Int = 0, h: Int = 0, doubles: Int = 0, triples: Int = 0, hr: Int = 0,
 		  so: Int = 0, bb: Int = 0, sh: Int = 0, sf: Int = 0, hbp: Int = 0, r: Int = 0,
 		  rbi: Int = 0): BattingStats = {
     val stats = empty
-    stats.add(ab, s, doubles, triples, hr, so, bb, sh, sf, hbp, r, rbi)
+    stats.add(ab, h, doubles, triples, hr, so, bb, sh, sf, hbp, r, rbi)
   }
   
 }
