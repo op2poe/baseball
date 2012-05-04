@@ -2,6 +2,8 @@ package op2poe.baseball.data.batting
 
 trait BattingStats {
 
+  def games: Int
+  
   def atBats: Int
   
   def hits: Int
@@ -57,12 +59,15 @@ trait BattingStats {
   
   final def ops = onBaseAverage + sluggingAverage
 
-  def add(ab: Int = 0, h: Int = 0, doubles:Int = 0, triples: Int = 0, hr: Int = 0,
-      so: Int = 0, bb: Int = 0, sh: Int = 0, sf:Int = 0, hbp: Int = 0, r: Int = 0,
-      rbi: Int = 0, sb: Int = 0, cs: Int = 0): BattingStats
+  def add(g: Int = 0, ab: Int = 0, 
+      h: Int = 0, doubles:Int = 0, triples: Int = 0, hr: Int = 0,
+      so: Int = 0, bb: Int = 0, sh: Int = 0, sf:Int = 0, hbp: Int = 0, 
+      r: Int = 0, rbi: Int = 0, 
+      sb: Int = 0, cs: Int = 0): BattingStats
 
   final def +(other: BattingStats): BattingStats = {
-    add(ab = other.atBats, 
+    add(g = other.games,
+        ab = other.atBats, 
         h = other.hits, 
         doubles = other.doubles, 
         triples = other.triples, 

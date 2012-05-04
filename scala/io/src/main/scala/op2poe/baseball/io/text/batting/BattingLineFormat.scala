@@ -8,7 +8,8 @@ import op2poe.baseball.data.batting.BattingStats
 class BattingLineFormat {
 
     val line = new FormattedStatLine(
-        FormattedStat.intLike("AB", 5),
+        FormattedStat.intLike("G", 5),
+        FormattedStat.intLike("AB", 6),
         FormattedStat.intLike("R", 6),
         FormattedStat.intLike("H", 6),
         FormattedStat.intLike("2B", 6),
@@ -16,9 +17,9 @@ class BattingLineFormat {
         FormattedStat.intLike("HR", 5),
         FormattedStat.intLike("BB", 7),
         FormattedStat.intLike("SO", 6),
-        FormattedStat.averageLike("BA", 8),
-        FormattedStat.intLike("SB", 7),
-        FormattedStat.averageLike("CS", 5),
+        FormattedStat.intLike("SB", 6),
+        FormattedStat.intLike("CS", 5),
+        FormattedStat.averageLike("BA", 7),
         FormattedStat.averageLike("OBP", 6),
         FormattedStat.averageLike("SLG", 6),
         FormattedStat.averageLike("OPS", 6)
@@ -29,6 +30,7 @@ class BattingLineFormat {
     def separator(c: Char): String = line.separator(c)
     
     def format(stats: BattingStats): String = line.formatLine(List[Any](
+        stats.games,
         stats.atBats, 
         stats.runs,
         stats.hits,

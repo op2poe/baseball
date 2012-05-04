@@ -8,6 +8,7 @@ object BattingStatsFactory {
   def fromTeamLine(line: String):BattingStats = {
     val parts = line.split(",")
     ArrayBattingStats(
+        g = toInt(parts(6)),
         r = toInt(parts(14)),
         ab = toInt(parts(15)),
         h = toInt(parts(16)),
