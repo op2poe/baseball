@@ -17,6 +17,8 @@ class BattingLineFormat {
         FormattedStat.intLike("BB", 7),
         FormattedStat.intLike("SO", 6),
         FormattedStat.averageLike("BA", 8),
+        FormattedStat.intLike("SB", 7),
+        FormattedStat.averageLike("CS", 5),
         FormattedStat.averageLike("OBP", 6),
         FormattedStat.averageLike("SLG", 6),
         FormattedStat.averageLike("OPS", 6)
@@ -35,6 +37,8 @@ class BattingLineFormat {
         stats.homeruns,
         stats.walks,
         stats.strikeouts,
+        stats.stolenBases,
+        stats.caughtStealing,
         stats.battingAverage,
         stats.onBaseAverage,
         stats.sluggingAverage,

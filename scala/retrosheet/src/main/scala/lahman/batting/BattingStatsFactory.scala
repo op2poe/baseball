@@ -18,7 +18,9 @@ object BattingStatsFactory {
         so = toInt(parts(21)),
         hbp = toInt(parts(24)),
         sf = toInt(parts(25)),
-        sh = toInt(parts(26))
+        sh = 0, // Not included in the file
+        sb = toInt(parts(22)),
+        cs = toInt(parts(23))
     )
   }
   
