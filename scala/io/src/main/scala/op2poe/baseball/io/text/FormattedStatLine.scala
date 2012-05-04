@@ -1,6 +1,7 @@
 package op2poe.baseball.io.text
 
 import op2poe.io.LineWriter
+import java.util.IllegalFormatConversionException
 
 final class FormattedStatLine(private val stats: FormattedStat*) {
 
@@ -9,7 +10,7 @@ final class FormattedStatLine(private val stats: FormattedStat*) {
     stats.foreach(s => sb.append(s.formatName))
     sb.toString
   }
-  
+
   def printHeader(out: LineWriter = LineWriter.Console) {
     out.println(header)
   }
@@ -18,7 +19,7 @@ final class FormattedStatLine(private val stats: FormattedStat*) {
     val line = formatLine(values)
     out.println(line)
   }
-  
+
   def formatLine(values: List[Any]) = {
     val sb = new StringBuilder
     for ((f, v) <- stats.zip(values)) {
@@ -27,13 +28,20 @@ final class FormattedStatLine(private val stats: FormattedStat*) {
     sb.toString
   }
 
+  private def formatValue(f: FormattedStat, v: Any) =
+    try {
+      f.formatValue(v)
+    } catch {
+      case ex: IllegalFormatConversionException => "?"
+    }
+
   def separator(c: Char) = {
     val totalWidth = (0 /: stats)((w, s) => w + s.width)
     c.toString * totalWidth
   }
-  
+
   def printSeparator(out: LineWriter, c: Char) {
     out.println(separator(c))
   }
-  
+
 }
