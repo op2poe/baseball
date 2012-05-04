@@ -1,14 +1,14 @@
 package retrosheet.gamelogs
 
 import op2poe.baseball.data.WLT
-import op2poe.baseball.data.BasicBattingStats
 import op2poe.baseball.data.Runs
+import op2poe.baseball.data.batting.BattingStats
 
-class Record(private var wlt: WLT, private var batting: BasicBattingStats) {
+class Record(private var wlt: WLT, private var batting: BattingStats) {
 
-  def this() = this(new WLT, BasicBattingStats.none)
+  def this() = this(new WLT, BattingStats.empty)
   
-  def addResult(r: Runs, b: BasicBattingStats) = {
+  def addResult(r: Runs, b: BattingStats) = {
     wlt = wlt.addResult(r)
     batting += b
   }
@@ -20,6 +20,6 @@ class Record(private var wlt: WLT, private var batting: BasicBattingStats) {
   
   def winPct = wlt.winPct
   
-  def average = batting.average
+  def average = batting.battingAverage
   
 }

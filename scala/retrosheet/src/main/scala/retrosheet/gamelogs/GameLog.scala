@@ -2,7 +2,7 @@ package retrosheet.gamelogs
 
 import scala.collection.mutable.Map
 import op2poe.baseball.data.Runs
-import op2poe.baseball.data.BasicBattingStats
+import op2poe.baseball.data.batting.BattingStats
 
 class GameLog {
 
@@ -21,9 +21,9 @@ class GameLog {
   }
   
   def readBattingStats(record: List[String], index: Int) = {
-    val ab = record(index)
-    if (ab.isEmpty) BasicBattingStats.none
-    else new BasicBattingStats(ab.toInt, record(index + 1).toInt)
+    val atBats = record(index)
+    if (atBats.isEmpty) BattingStats.empty
+    else BattingStats(ab = atBats.toInt, h = record(index + 1).toInt)
   }
     
     

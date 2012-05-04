@@ -2,18 +2,18 @@ package retrosheet.gamelogs
 
 import op2poe.baseball.data.WLT
 import op2poe.baseball.data.Runs
-import op2poe.baseball.data.BasicBattingStats
+import op2poe.baseball.data.batting.BattingStats
 
 class Team(val name: String) {
 
   val homeRecord = new Record
   val roadRecord = new Record
   
-  def addHomeGame(r: Runs, b: BasicBattingStats) {
+  def addHomeGame(r: Runs, b: BattingStats) {
     homeRecord.addResult(r, b)
   }
     
-  def addRoadGame(r: Runs, b: BasicBattingStats) {
+  def addRoadGame(r: Runs, b: BattingStats) {
     roadRecord.addResult(r,  b)
   }
 
