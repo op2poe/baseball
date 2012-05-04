@@ -4,10 +4,14 @@ import op2poe.io.LineWriter
 
 final class FormattedStatLine(private val stats: FormattedStat*) {
 
-  def printHeader(out: LineWriter = LineWriter.Console) {
+  def header = {
     val sb = new StringBuilder
     stats.foreach(s => sb.append(s.formatName))
-    out.println(sb.toString)
+    sb.toString
+  }
+  
+  def printHeader(out: LineWriter = LineWriter.Console) {
+    out.println(header)
   }
 
   def printLine(out: LineWriter, values: List[Any]) {
@@ -23,9 +27,13 @@ final class FormattedStatLine(private val stats: FormattedStat*) {
     sb.toString
   }
 
-  def separator(out: LineWriter, char: Char) {
+  def separator(c: Char) = {
     val totalWidth = (0 /: stats)((w, s) => w + s.width)
-    out.println(char.toString * totalWidth)
+    c.toString * totalWidth
+  }
+  
+  def printSeparator(out: LineWriter, c: Char) {
+    out.println(separator(c))
   }
   
 }

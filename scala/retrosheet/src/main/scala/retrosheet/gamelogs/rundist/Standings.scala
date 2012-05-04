@@ -30,13 +30,13 @@ final class Standings(ts: Iterable[Team]) {
   def print(out: LineWriter = LineWriter.Console) {
     printHeader(out)
     teams.foreach(printTeam(_, out))
-    statLine.separator(out, '=')
+    statLine.printSeparator(out, '=')
     out.println()
   }
 
   private def printHeader(out: LineWriter) {
     statLine.printHeader(out)
-    statLine.separator(out, '-')
+    statLine.printSeparator(out, '-')
   }
 
   private def printTeam(t: Team, out: LineWriter) {
