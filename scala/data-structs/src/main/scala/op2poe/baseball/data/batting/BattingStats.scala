@@ -89,3 +89,20 @@ trait BattingStats {
   }
   
 }
+
+object BattingStats {
+  
+  def empty: BattingStats = ArrayBattingStats.empty
+  
+  def apply(g: Int = 0, ab: Int = 0, 
+      		h: Int = 0, doubles: Int = 0, triples: Int = 0, hr: Int = 0,
+		    so: Int = 0, bb: Int = 0, sh: Int = 0, sf: Int = 0, hbp: Int = 0, 
+		    r: Int = 0, rbi: Int = 0,
+		    sb: Int = 0, cs: Int = 0): BattingStats = 
+		      ArrayBattingStats(g, ab,
+		    		  			h, doubles, triples, hr,
+		    		  			so, bb, sh, sf, hbp,
+		    		  			r, rbi,
+		    		  			sb, cs)
+
+}
