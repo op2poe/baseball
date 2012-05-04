@@ -34,9 +34,14 @@ final class MapBattingStats extends BattingStats {
 
   def runsBattedIn(): Int = { map("RBI") }
 
+  def stolenBases(): Int = { map("SB") }
+  
+  def caughtStealing(): Int = { map("CS") }
+  
   def add(ab: Int = 0, h: Int = 0, doubles: Int = 0, triples: Int = 0, hr: Int = 0,
-		  so: Int = 0, bb: Int = 0, sh: Int = 0, sf: Int = 0, hbp: Int = 0, r: Int = 0,
-		  rbi: Int = 0): BattingStats = {
+		  so: Int = 0, bb: Int = 0, sh: Int = 0, sf: Int = 0, hbp: Int = 0, 
+		  r: Int = 0, rbi: Int = 0,
+		  sb: Int = 0, cs: Int = 0): BattingStats = {
     val sum = new MapBattingStats
     sum.map("AB") = atBats + ab
     sum.map("H") = hits + h
@@ -50,6 +55,8 @@ final class MapBattingStats extends BattingStats {
     sum.map("HBP") = hitByPitch + hbp
     sum.map("R") = runs + r
     sum.map("RBI") = runsBattedIn + rbi
+    sum.map("SB") = stolenBases + sb
+    sum.map("CS") = caughtStealing + cs
     sum.sanityCheck()
     sum
   }

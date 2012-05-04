@@ -26,6 +26,10 @@ trait BattingStats {
   
   def runsBattedIn: Int
   
+  def stolenBases: Int
+  
+  def caughtStealing: Int
+  
   final def singles = hits - (doubles + triples + homeruns)
   
   final def totalBases = singles + 2 * doubles + 3 * triples + 4 * homeruns
@@ -55,7 +59,7 @@ trait BattingStats {
 
   def add(ab: Int = 0, h: Int = 0, doubles:Int = 0, triples: Int = 0, hr: Int = 0,
       so: Int = 0, bb: Int = 0, sh: Int = 0, sf:Int = 0, hbp: Int = 0, r: Int = 0,
-      rbi: Int = 0): BattingStats
+      rbi: Int = 0, sb: Int = 0, cs: Int = 0): BattingStats
 
   final def +(other: BattingStats): BattingStats = {
     add(ab = other.atBats, 
@@ -69,7 +73,9 @@ trait BattingStats {
     	sf = other.sacrificeFlies,
     	hbp = other.hitByPitch, 
     	r = other.runs, 
-    	rbi = other.runsBattedIn)
+    	rbi = other.runsBattedIn,
+    	sb = other.stolenBases,
+    	cs = other.caughtStealing)
   }
   
   protected final def checkInvariants() {

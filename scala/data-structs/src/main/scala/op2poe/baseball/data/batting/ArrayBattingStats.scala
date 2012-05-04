@@ -2,7 +2,7 @@ package op2poe.baseball.data.batting
 
 final class ArrayBattingStats private (values: Array[Int]) extends BattingStats {
 
-  require(values.length == 12)
+  require(values.length == 14)
   require(values.forall(_ >= 0))
   checkInvariants()
 
@@ -30,10 +30,15 @@ final class ArrayBattingStats private (values: Array[Int]) extends BattingStats 
 
   def runsBattedIn(): Int = { values(11) }
 
+  def stolenBases(): Int = { values(12) }
+  
+  def caughtStealing(): Int = { values(13) }
+  
   def add(ab: Int = 0, h: Int = 0, doubles: Int = 0, triples: Int = 0, hr: Int = 0,
-		  so: Int = 0, bb: Int = 0, sh: Int = 0, sf: Int = 0, hbp: Int = 0, r: Int = 0,
-		  rbi: Int = 0): BattingStats = {
-    val sum = Array[Int](12)
+		  so: Int = 0, bb: Int = 0, sh: Int = 0, sf: Int = 0, hbp: Int = 0, 
+		  r: Int = 0, rbi: Int = 0, 
+		  sb: Int = 0, cs: Int = 0): BattingStats = {
+    val sum = Array[Int](14)
     values(0) = atBats + ab
     values(1) = hits + h
     values(2) = this.doubles + doubles
@@ -46,6 +51,8 @@ final class ArrayBattingStats private (values: Array[Int]) extends BattingStats 
     values(9) = hitByPitch + hbp
     values(10) = runs + r
     values(11) = runsBattedIn + rbi
+    values(12) = stolenBases + sb
+    values(13) = caughtStealing + cs
     new ArrayBattingStats(values)
   }
 
@@ -53,7 +60,7 @@ final class ArrayBattingStats private (values: Array[Int]) extends BattingStats 
 
 object ArrayBattingStats {
 
-  def empty = new ArrayBattingStats(new Array[Int](12))
+  def empty = new ArrayBattingStats(new Array[Int](14))
 
   // TODO: Identical code in the MapBattingStats companion object.
   // Can we eliminate this duplication?
