@@ -11,7 +11,7 @@ object BattingStatsFactoryDriver extends App {
   
   val teamLines = TeamFileReader.readFile(root + "Teams.csv")
   
-  val playerLines = PlayerFileReader.readFile(root + "Batting.csv")
+  val playerLines: Map[(String, Int), List[String]] = PlayerFileReader.readFile(root + "Batting.csv")
   
   print1927YankeesBattingLine()
   print1921BabeRuth()
@@ -30,10 +30,10 @@ object BattingStatsFactoryDriver extends App {
   }
   
   def print1921BabeRuth() {
-    val lines = playerLines.get(("ruthba01", 1921))
+    val lines = playerLines(("ruthba01", 1921))
     var stats: BattingStats = ArrayBattingStats.empty
     for (line <- lines) {
-      stats += BattingStatsFactory.fromPlayerLine(line(0))
+      stats += BattingStatsFactory.fromPlayerLine(line)
     }
     printStats(stats)
   }

@@ -5,7 +5,7 @@ import scala.io.Source
 
 object PlayerFileReader {
 
-  def readFile(path: String): mutable.Map[(String, Int), List[String]] = {
+  def readFile(path: String): Map[(String, Int), List[String]] = {
     val map = mutable.Map[(String, Int), List[String]]()
     val source = Source.fromFile(path)
     for (line <- source.getLines if !line.isEmpty; if !line.startsWith("playerID")) {
@@ -17,7 +17,7 @@ object PlayerFileReader {
       lines = line :: lines
       map(key) = lines
     }
-    map
+    map.toMap
   }
 
 }
