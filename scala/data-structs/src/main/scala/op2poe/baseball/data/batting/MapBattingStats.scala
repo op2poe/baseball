@@ -74,10 +74,11 @@ object MapBattingStats {
   // TODO: Identical code in the ArrayBattingStats companion object.
   // Can we eliminate this duplication?
   def apply(ab: Int = 0, h: Int = 0, doubles: Int = 0, triples: Int = 0, hr: Int = 0,
-		  so: Int = 0, bb: Int = 0, sh: Int = 0, sf: Int = 0, hbp: Int = 0, r: Int = 0,
-		  rbi: Int = 0): BattingStats = {
+		  so: Int = 0, bb: Int = 0, sh: Int = 0, sf: Int = 0, hbp: Int = 0, 
+		  r: Int = 0, rbi: Int = 0,
+		  sb: Int = 0, cs: Int = 0): BattingStats = {
     val stats = empty
-    stats.add(ab, h, doubles, triples, hr, so, bb, sh, sf, hbp, r, rbi)
+    stats.add(ab, h, doubles, triples, hr, so, bb, sh, sf, hbp, r, rbi, sb, cs)
   }
   
 }
