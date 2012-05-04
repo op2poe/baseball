@@ -31,10 +31,7 @@ object BattingStatsFactoryDriver extends App {
   
   def print1921BabeRuth() {
     val lines = playerLines(("ruthba01", 1921))
-    var stats: BattingStats = ArrayBattingStats.empty
-    for (line <- lines) {
-      stats += BattingStatsFactory.fromPlayerLine(line)
-    }
+    val stats = (BattingStats.empty /: lines) (_ + BattingStatsFactory.fromPlayerLine(_))
     printStats(stats)
   }
   
