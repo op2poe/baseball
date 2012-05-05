@@ -39,12 +39,16 @@ trait PitchingStats {
   def sacrificeHits: Int
   
   def sacrificeFlies: Int
+
+  def inningsPitched = new InningsPitched(outs)
   
   def era: Double = per9Innings(earnedRuns)
 
   def per9Innings(v: Int) = 9 * (v / innings)
   
   private def innings: Double = outs / 3.0
+
+  def hitsPer9 = per9Innings(hits)
   
   def strikeoutsPer9 = per9Innings(strikeouts)
   
