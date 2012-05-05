@@ -85,3 +85,17 @@ trait PitchingStats {
          sf = other.sacrificeFlies)
   
 }
+
+object PitchingStats {
+  
+  def empty: PitchingStats = ArrayPitchingStats.empty
+
+  def apply(w: Int = 0, lo: Int = 0, g: Int = 0, gs: Int = 0, cg: Int = 0, 
+          sho: Int = 0, sv: Int = 0, bf: Int = 0, outs: Int = 0, 
+          r: Int = 0, er: Int = 0, h: Int = 0, hr: Int = 0, 
+          bb: Int = 0, so: Int = 0, wp: Int = 0, hbp: Int = 0, 
+          sh: Int = 0, sf: Int = 0): PitchingStats = {
+    ArrayPitchingStats(w, lo, g, gs, cg, sho, sv, bf, outs, r, er, 
+        h, hr, bb, so, wp, hbp, sh, sf)
+  }  
+}
