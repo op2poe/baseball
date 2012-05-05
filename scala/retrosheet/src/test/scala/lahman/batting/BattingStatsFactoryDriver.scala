@@ -4,6 +4,7 @@ import op2poe.baseball.io.text.batting.BattingLineFormat
 import op2poe.io.LineWriter
 import op2poe.baseball.data.batting.ArrayBattingStats
 import op2poe.baseball.data.batting.BattingStats
+import lahman.TeamFileReader
 
 object BattingStatsFactoryDriver extends App {
 

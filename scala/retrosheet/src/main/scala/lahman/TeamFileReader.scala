@@ -1,4 +1,4 @@
-package lahman.batting
+package lahman
 
 import scala.collection.mutable;
 import scala.io.Source
