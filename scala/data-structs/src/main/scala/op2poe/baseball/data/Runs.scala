@@ -15,6 +15,18 @@ final class Runs(val scored: Int, val against: Int) {
 
   def isTie = scored == against
 
+  def pythagoreanPct: Double = {
+    // If using a single number exponent, 1.83 is the most accurate, and the one used by baseball-reference.com
+    val r2 = scala.math.pow(scored, 1.83)
+    1.0 * r2 / (r2 + scala.math.pow(against, 1.83))
+  }
+  
+  def pythagoreanWL(games: Int): WLT = {
+    val w = (pythagoreanPct * games).round.toInt
+    new WLT(w, games - w, 0)
+  }
+    
+  
   /**
    * Returns a predicate that evaluates to true when passed a Runs instance 
    * with the same outcome (win, loss, or tie) as this instance.
