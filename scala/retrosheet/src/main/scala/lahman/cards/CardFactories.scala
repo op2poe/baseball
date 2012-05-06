@@ -8,6 +8,13 @@ import lahman.pitching.PitchingStatsFactory
 import op2poe.baseball.data.game.BattingCard
 import scala.collection.mutable.ListBuffer
 import op2poe.baseball.data.game.PitchingCard
+import op2poe.baseball.data.game.Single
+import op2poe.baseball.data.game.Double
+import op2poe.baseball.data.game.Triple
+import op2poe.baseball.data.game.Homerun
+import op2poe.baseball.data.game.Strikeout
+import op2poe.baseball.data.game.Walk
+import op2poe.baseball.data.game.Out
 
 class CardFactories(private val year: Int, private val league: String) {
 
@@ -30,9 +37,8 @@ class CardFactories(private val year: Int, private val league: String) {
         s => s.plateAppearances - (s.singles + s.doubles + s.triples + s.homeruns + s.strikeouts + s.walks)
     )
     val sides = generateNumberOfSidesInDie(leagueBattingStats, teamStats, baseLineF, valueFs)
-    return BattingCard(plateAppearances = 1000, singles = sides(0), doubles = sides(1), 
-        triples = sides(2), homeruns = sides(3), 
-        strikeouts = sides(4), walks = sides(5))
+    return BattingCard((Single, sides(0)), (Double, sides(1)), (Triple, sides(2)),
+        (Homerun, sides(3)), (Strikeout, sides(4)), (Walk, sides(5)), (Out, sides(6)))
   }
 
   private def generateNumberOfSidesInDie[A](leagueStats: A, teamStats: A,
