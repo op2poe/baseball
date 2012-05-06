@@ -5,10 +5,11 @@ import op2poe.baseball.data.LineScore
 import op2poe.baseball.data.WLT
 import op2poe.baseball.data.Runs
 import op2poe.baseball.data.ResultLog
+import op2poe.baseball.data.TeamRecord
 
 final class Team(val id: String, val name: String) {
 
-  var record = new WLT
+  var record = new TeamRecord
   var resultLog = new ResultLog
 
   val runsScoredDistHome = new InningRunDistribution
@@ -31,12 +32,10 @@ final class Team(val id: String, val name: String) {
     resultLog.add(runs)
   }
 
-  def runs = resultLog.sum
-
   def last10 = resultLog.last10
 
   def streak:String = resultLog.streak
   
-  def nameAndRecord = name + " (" + record.toStringWithoutTies + ")"
+  def nameAndRecord = name + " (" + record.wlt.toStringWithoutTies + ")"
 
 }

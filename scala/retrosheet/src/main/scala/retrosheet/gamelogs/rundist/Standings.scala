@@ -48,8 +48,8 @@ final class Standings(ts: Iterable[Team]) {
         t.record.losses,
         t.record.winPct,
         gb,
-        t.runs.scored,
-        t.runs.against,
+        t.record.runsScored,
+        t.record.runsAgainst,
         t.last10.toStringWithoutTies, 
         t.streak))
   }

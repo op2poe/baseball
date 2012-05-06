@@ -6,7 +6,7 @@ import op2poe.baseball.data.pitching.PitchingStats
 class TeamRecord (val wlt: WLT, 
 				  val runs: Runs, 
 				  val battingStats: BattingStats = BattingStats.empty, 
-				  val pitchingStats: PitchingStats = PitchingStats.empty) {
+				  val pitchingStats: PitchingStats = PitchingStats.empty) extends Ordered[TeamRecord] {
   
   def this() = this(new WLT(), new Runs(0, 0))
   
@@ -22,10 +22,24 @@ class TeamRecord (val wlt: WLT,
       battingStats + other.battingStats, 
       pitchingStats + other.pitchingStats)
   
+  def wins = wlt.wins
+  
+  def losses = wlt.losses
+  
+  def winPct = wlt.winPct
+  
+  def winLossDiff = wlt.winLossDiff
+  
+  def runsScored = runs.scored
+  
+  def runsAgainst = runs.against
+  
   def pythagoreanWL = runs.pythagoreanWL(wlt.wins + wlt.losses)
   
   def luck = {
     wlt.wins - pythagoreanWL.wins
   }
+
+  def compare(other: TeamRecord): Int = wlt.compare(other.wlt)
   
 }
