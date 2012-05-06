@@ -1,6 +1,6 @@
-package op2poe.baseball.data.game
+package op2poe.util
 
-import op2poe.baseball.data.game.Die.Side
+import op2poe.util.Die.Side
 import java.util.Arrays
 
 object DieTest extends App {
@@ -18,7 +18,7 @@ object DieTest extends App {
   }
   
   def testSixSidedDie() {
-    val die = Die((for (v <- 1 to 6) yield Side(v, 1)):_*)
+    val die = Die[Int]((for (v <- 1 to 6) yield Side(v, 1)):_*)
     val sums = new Array[Int](6)
     for (_ <- 1 to 1000) sums(die.roll() - 1) += 1
     println(Arrays.toString(sums))

@@ -1,6 +1,7 @@
 package op2poe.baseball.data.game
 
-import op2poe.baseball.data.game.Die.Side
+import op2poe.util.Die
+import op2poe.util.Die.Side
 
 final class BattingCard(private val die: Die[Outcome], val weak: Boolean) extends PlayerCard {
 

@@ -1,5 +1,4 @@
-package op2poe.baseball.data.game
-
+package op2poe.util
 import scala.collection.immutable.TreeMap
 import scala.collection.immutable.SortedMap
 import scala.collection.mutable;

@@ -7,7 +7,12 @@ object CardFactoriesTestDriver extends App {
   def test1927YankeesBattingCard() {
     val f = new CardFactories(1927, "AL")
     val bc = f.teamBattingCard("NYA")
-    for (_ <- 1 to 10) println(bc.outcome())
+    var outs = 0
+    while (outs < 27) {
+      val oc = bc.outcome()
+      println(oc)
+      if (oc.isOut) outs += 1
+    }
   }
   
 }
