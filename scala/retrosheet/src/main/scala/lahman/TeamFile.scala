@@ -5,10 +5,14 @@ import scala.io.Source
 
 final class TeamFile(private val data: Map[TeamFile.League, mutable.Map[String, String]]) {
 
-  def teamLine(year: Int, league: String, team: String): String =
+  def apply(year: Int, league: String, team: String): String = this.team(year, league, team)
+  
+  def apply(year: Int, league: String) = this.league(year, league)
+  
+  def team(year: Int, league: String, team: String): String =
     data(TeamFile.League(year, league))(team)
   
-  def leagueLines(year: Int, league: String) =
+  def league(year: Int, league: String) =
     data(TeamFile.League(year, league))
     
 }
