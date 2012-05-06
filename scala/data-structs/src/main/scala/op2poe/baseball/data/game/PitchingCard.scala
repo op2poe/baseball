@@ -16,7 +16,7 @@ object PitchingCard {
 			triples: Int,
 			homeruns: Int,
 			strikeouts: Int,
-			walks: Int) {
+			walks: Int) = {
     val outs = battersFaced - (singles + doubles + triples + homeruns + strikeouts + walks)
     new PitchingCard(Die(Side(Single, singles), 
     				     Side(Double, doubles),

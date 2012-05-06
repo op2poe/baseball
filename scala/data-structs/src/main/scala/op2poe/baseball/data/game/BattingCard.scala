@@ -16,7 +16,7 @@ object BattingCard {
 			triples: Int,
 			homeruns: Int,
 			strikeouts: Int,
-			walks: Int) {
+			walks: Int) = {
     val outs = plateAppearances - (singles + doubles + triples + homeruns + strikeouts + walks)
     val die = Die[Outcome](Side(Single, singles), 
     				       Side(Double, doubles),
