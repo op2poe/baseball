@@ -11,6 +11,7 @@ final class BattingCard(private val die: Die[Outcome], val weak: Boolean) extend
 
 object BattingCard {
   
+  // TODO: Very similar code in the PitchingCard factory method
   def apply(values: (Outcome, Int)*): BattingCard = {
     val sides = values.map(v => Die.Side[Outcome](v._1, v._2))
     val die = Die.fromSeq(sides)
