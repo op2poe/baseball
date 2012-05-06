@@ -34,6 +34,8 @@ final class Team(val id: String, val name: String) {
 
   def last10 = resultLog.last10
 
+  def oneRun = resultLog.oneRun
+  
   def streak:String = resultLog.streak
   
   def nameAndRecord = name + " (" + record.wlt.toStringWithoutTies + ")"

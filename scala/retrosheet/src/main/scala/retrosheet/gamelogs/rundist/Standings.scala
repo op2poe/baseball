@@ -25,7 +25,8 @@ final class Standings(ts: Iterable[Team]) {
     FormattedStat.stringLike("L10", 7),
     FormattedStat.stringLike("STRK", 6),
     FormattedStat.stringLike("PythWL", 10),
-    FormattedStat.intLike("LUCK", 5))
+    FormattedStat.intLike("LUCK", 5),
+    FormattedStat.stringLike("1-RUN", 8))
 
   private val pctFormat = new DecimalFormat(".000")
 
@@ -55,7 +56,8 @@ final class Standings(ts: Iterable[Team]) {
         t.last10.toStringWithoutTies, 
         t.streak,
         t.record.pythagoreanWL.toStringWithoutTies,
-        t.record.luck))
+        t.record.luck,
+        t.oneRun.toStringWithoutTies))
   }
 
 }

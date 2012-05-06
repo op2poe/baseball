@@ -15,6 +15,8 @@ final class Runs(val scored: Int, val against: Int) {
 
   def isTie = scored == against
 
+  def isOneRunGame = (scored - against).abs == 1
+  
   def pythagoreanPct: Double = {
     // If using a single number exponent, 1.83 is the most accurate, and the one used by baseball-reference.com
     val r2 = scala.math.pow(scored, 1.83)
