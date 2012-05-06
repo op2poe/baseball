@@ -3,7 +3,7 @@ package lahman
 import scala.collection.mutable
 import scala.io.Source
 
-final class TeamFile(private val data: Map[TeamFile.League, mutable.Map[String, String]]) {
+final class TeamFile(private val data: Map[TeamFile.League, Map[String, String]]) {
 
   def apply(year: Int, league: String, team: String): String = this.team(year, league, team)
   
@@ -32,7 +32,7 @@ object TeamFile {
       teams(parts(2)) = line
       map(league) = teams
     }
-    new TeamFile(map.toMap)
+    new TeamFile(map.map(p => (p._1, p._2.toMap)).toMap)
   }
   
 }
