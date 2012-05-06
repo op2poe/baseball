@@ -21,7 +21,7 @@ object TeamFile {
   
   case class League(val year: Int, val league: String)
   
-  def read(path: String) = {
+  def read(path: String = "C:\\z\\coding\\bb\\lahman\\data\\Teams.csv") = {
     val map = mutable.Map[League, mutable.Map[String, String]]()
     val source = Source.fromFile(path)
     for (line <- source.getLines if !line.isEmpty; if !line.startsWith("yearID")) {
