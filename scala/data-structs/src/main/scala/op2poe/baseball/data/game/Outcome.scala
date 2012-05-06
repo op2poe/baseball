@@ -5,12 +5,46 @@ import op2poe.baseball.data.pitching.PitchingStats
 /**
  * The possible outcomes of a pitcher-batter matchup.
  */
-sealed abstract class Outcome
+sealed abstract class Outcome {
+  
+  def isOut: Boolean
+  
+  def isHit: Boolean
+  
+}
 
-case class Single extends Outcome
-case class Double extends Outcome
-case class Triple extends Outcome
-case class Homerun extends Outcome  
-case class Strikeout extends Outcome
-case class Walk extends Outcome
-case class Out extends Outcome
+case object Single extends Outcome {
+  def isOut = false
+  def isHit = true
+}
+
+
+case object Double extends Outcome {
+  def isOut = false
+  def isHit = true
+}
+
+case object Triple extends Outcome {
+  def isOut = false
+  def isHit = true
+}
+
+case object Homerun extends Outcome {
+  def isOut = false
+  def isHit = true
+}
+
+case object Strikeout extends Outcome {
+  def isOut = true
+  def isHit = false
+}
+
+case object Walk extends Outcome {
+  def isOut = false
+  def isHit = false
+}
+
+case object Out extends Outcome {
+  def isOut = true
+  def isHit = false
+}

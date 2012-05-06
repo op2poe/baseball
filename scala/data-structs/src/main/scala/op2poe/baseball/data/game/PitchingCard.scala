@@ -2,7 +2,7 @@ package op2poe.baseball.data.game
 
 import op2poe.baseball.data.game.Die.Side
 
-final class PitchingCard(private val die: Die[Outcome]) {
+final class PitchingCard(private val die: Die[Outcome]) extends PlayerCard {
 
   def outcome(): Outcome = die.roll()
   
@@ -18,12 +18,12 @@ object PitchingCard {
 			strikeouts: Int,
 			walks: Int) {
     val outs = battersFaced - (singles + doubles + triples + homeruns + strikeouts + walks)
-    new PitchingCard(Die(Side(new Single, singles), 
-    				     Side(new Double, doubles),
-    				     Side(new Triple, triples),
-    				     Side(new Homerun, homeruns),
-    				     Side(new Strikeout,  strikeouts),
-    				     Side(new Walk, walks)))
+    new PitchingCard(Die(Side(Single, singles), 
+    				     Side(Double, doubles),
+    				     Side(Triple, triples),
+    				     Side(Homerun, homeruns),
+    				     Side(Strikeout,  strikeouts),
+    				     Side(Walk, walks)))
   }
   
 }
