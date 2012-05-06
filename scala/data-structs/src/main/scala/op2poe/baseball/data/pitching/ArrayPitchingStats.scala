@@ -48,7 +48,7 @@ class ArrayPitchingStats private (values: Array[Int]) extends PitchingStats {
           r: Int = 0, er: Int = 0, h: Int = 0, hr: Int = 0, 
           bb: Int = 0, so: Int = 0, wp: Int = 0, hbp: Int = 0, 
           sh: Int = 0, sf: Int = 0): ArrayPitchingStats = {
-    val sum = Array[Int](19)
+    val sum = new Array[Int](19)
     sum(0) = games + g
     sum(1) = wins + w
     sum(2) = losses + lo
