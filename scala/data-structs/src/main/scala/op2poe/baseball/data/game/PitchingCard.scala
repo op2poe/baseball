@@ -23,7 +23,8 @@ object PitchingCard {
     				     Side(Triple, triples),
     				     Side(Homerun, homeruns),
     				     Side(Strikeout,  strikeouts),
-    				     Side(Walk, walks)))
+    				     Side(Walk, walks),
+    				     Side(Out, outs)))
   }
   
 }

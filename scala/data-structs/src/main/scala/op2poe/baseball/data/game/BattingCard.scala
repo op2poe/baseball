@@ -23,7 +23,8 @@ object BattingCard {
     				       Side(Triple, triples),
     				       Side(Homerun, homeruns),
     				       Side(Strikeout,  strikeouts),
-    				       Side(Walk, walks))
+    				       Side(Walk, walks),
+    				       Side(Out, outs))
     val weak = false // TODO: Implement me.
     new BattingCard(die, weak)
   }
