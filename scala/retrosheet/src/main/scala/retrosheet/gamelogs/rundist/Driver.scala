@@ -23,8 +23,8 @@ object Driver extends App {
   val Teams = Map("NL" -> NationalLeagueTeams, "AL" ->AmericanLeagueTeams)
 
   val season = createSeason()
-  //season.playAllGames()
-  season.playUntil(Date(year, 5, 15))
+  season.playAllGames()
+  //season.playUntil(Date(year, 5, 15))
   
   def createSeason() = {
     val lg = "AL"
