@@ -56,7 +56,38 @@ class CardFactories(private val year: Int, private val league: String) {
       val tm = 1.0 * valueF(team) / baseLineF(team)
       2 * tm - lg
   }
-  
-  
+
+  def teamPitchingCard(teamId: String): PitchingCard = {
+    val teamStats = PitchingStatsFactory.fromTeamLine(teamLines(teamId))
+    def baseLineF = (s: PitchingStats) => s.hits + s.walks + s.outs
+    val valueFs = List[(PitchingStats) => Int](
+        pitchingSingles,
+        pitchingDoubles,
+        pitchingTriples,
+        s => s.homeRuns,
+        s => s.strikeouts,
+        s => s.walks, 
+        s => baseLineF(s) - (s.hits + s.strikeouts + s.walks)
+    )
+    val sides = generateNumberOfSidesInDie(leaguePitchingStats, teamStats, baseLineF, valueFs)
+    return PitchingCard((Single, sides(0)), (Double, sides(1)), (Triple, sides(2)),
+        (Homerun, sides(3)), (Strikeout, sides(4)), (Walk, sides(5)), (Out, sides(6)))
+  }
+
+  // TODO: These three methods can be combined to one. Currying?
+  private def pitchingSingles(s: PitchingStats): Int = {
+    val leagueRatio = 1.0 * leagueBattingStats.singles / leagueBattingStats.hits
+    (s.hits * leagueRatio).round.toInt
+  }
+
+  private def pitchingDoubles(s: PitchingStats): Int = {
+    val leagueRatio = 1.0 * leagueBattingStats.doubles / leagueBattingStats.hits
+    (s.hits * leagueRatio).round.toInt
+  }
+
+  private def pitchingTriples(s: PitchingStats): Int = {
+    val leagueRatio = 1.0 * leagueBattingStats.triples / leagueBattingStats.hits
+    (s.hits * leagueRatio).round.toInt
+  }
   
 }
