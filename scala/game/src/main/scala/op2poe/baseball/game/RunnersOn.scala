@@ -6,10 +6,14 @@ sealed abstract class RunnersOn {
 
   def advance(outcome: Outcome, outs: Int): (RunnersOn, Int)
   
+  def leftOnBase: Int
+  
 }
 
 case object NoBaseRunners extends RunnersOn {
 
+  val leftOnBase = 0
+  
   def advance(outcome: Outcome, outs: Int) =
     outcome match {
       case Single => (RunnerOnFirst, 0)
@@ -23,6 +27,8 @@ case object NoBaseRunners extends RunnersOn {
 }
 
 case object RunnerOnFirst extends RunnersOn {
+
+  val leftOnBase = 1
   
   def advance(outcome: Outcome, outs: Int) =
     outcome match {
@@ -37,6 +43,8 @@ case object RunnerOnFirst extends RunnersOn {
 }
 
 case object RunnerOnSecond extends RunnersOn {
+
+  val leftOnBase = 1
   
   def advance(outcome: Outcome, outs: Int) =
     outcome match {
@@ -51,6 +59,8 @@ case object RunnerOnSecond extends RunnersOn {
 }
 
 case object RunnerOnThird extends RunnersOn {
+
+  val leftOnBase = 1
   
   def advance(outcome: Outcome, outs: Int) =
     outcome match {
@@ -65,6 +75,8 @@ case object RunnerOnThird extends RunnersOn {
 }
 
 case object RunnersOnFirstAndSecond extends RunnersOn {
+
+  val leftOnBase = 2
   
   def advance(outcome: Outcome, outs: Int) =
     outcome match {
@@ -80,6 +92,8 @@ case object RunnersOnFirstAndSecond extends RunnersOn {
 
 case object RunnersOnFirstAndThird extends RunnersOn {
   
+  val leftOnBase = 2
+
   def advance(outcome: Outcome, outs: Int) =
     outcome match {
       case Single => (RunnersOnFirstAndSecond, 1)
@@ -94,6 +108,8 @@ case object RunnersOnFirstAndThird extends RunnersOn {
 
 case object RunnersOnSecondAndThird extends RunnersOn {
   
+  val leftOnBase = 2
+  
   def advance(outcome: Outcome, outs: Int) =
     outcome match {
       case Single => (RunnersOnFirstAndThird, 1)
@@ -107,6 +123,8 @@ case object RunnersOnSecondAndThird extends RunnersOn {
 }
 
 case object BasesLoaded extends RunnersOn {
+  
+  val leftOnBase = 3
   
   def advance(outcome: Outcome, outs: Int) =
     outcome match {
