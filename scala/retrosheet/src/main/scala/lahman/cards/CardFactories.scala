@@ -61,9 +61,9 @@ class CardFactories(private val year: Int, private val league: String) {
     val teamStats = PitchingStatsFactory.fromTeamLine(teamLines(teamId))
     def baseLineF = (s: PitchingStats) => s.hits + s.walks + s.outs
     val valueFs = List[(PitchingStats) => Int](
-        s => pitchingHits(s, leagueBattingStats.singles),
-        s => pitchingHits(s, leagueBattingStats.doubles),
-        s => pitchingHits(s, leagueBattingStats.triples),
+        pitchingHits(leagueBattingStats.singles)_,
+        pitchingHits(leagueBattingStats.doubles)_,
+        pitchingHits(leagueBattingStats.triples)_,
         s => s.homeRuns,
         s => s.strikeouts,
         s => s.walks, 
@@ -74,7 +74,7 @@ class CardFactories(private val year: Int, private val league: String) {
         (Homerun, sides(3)), (Strikeout, sides(4)), (Walk, sides(5)), (Out, sides(6)))
   }
 
-  private def pitchingHits(s: PitchingStats, v: Int): Int = {
+  private def pitchingHits(v: Int)(s: PitchingStats): Int = {
     val leagueRatio = 1.0 * v / leagueBattingStats.hits
     (s.hits * leagueRatio).round.toInt
   }
