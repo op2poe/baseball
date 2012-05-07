@@ -15,43 +15,39 @@ import retrosheet.schedules.ScheduledGame
 import op2poe.baseball.data.Date
 import op2poe.io.LineWriter
 import op2poe.baseball.game.Game
+import op2poe.baseball.io.text.FormattedStatLine
+import op2poe.baseball.data.GamesBehind
+import java.text.DecimalFormat
+import op2poe.baseball.io.text.FormattedStat
+import op2poe.baseball.io.text.HorizontalAlign
 
 object CardBasedSeason extends App {
-    
-  val NationalLeagueTeams = 
-    List(("BRO", "Brooklyn"), ("PHI", "Philadelphia"), ("BSN", "Boston"), 
-		 ("NY1", "New York"), ("CHN", "Chicago"), ("SLN", "St. Louis"),
-		 ("PIT", "Pittsburgh"), ("CIN", "Cincinnati"))
-  
-  val AmericanLeagueTeams01 = 
-    List(("CLE", "Cleveland"), ("CHA", "Chicago"), ("MLA", "Milwaukee"), 
-		 ("DET", "Detroit"), ("BOS", "Boston"), ("BLA", "Baltimore"),
-		 ("WS1", "Washington"), ("PHA", "Philadelphia"))
-  
-  val AmericanLeagueTeams = 
-    List(("CLE", "Cleveland"), ("CHA", "Chicago"), ("SLA", "St. Louis"), 
-		 ("DET", "Detroit"), ("BOS", "Boston"), ("NYA", "New York"),
-		 ("WS1", "Washington"), ("PHA", "Philadelphia"))
+
+  val NationalLeagueTeams =
+    List(("BRO", "Brooklyn"), ("PHI", "Philadelphia"), ("BSN", "Boston"),
+      ("NY1", "New York"), ("CHN", "Chicago"), ("SLN", "St. Louis"),
+      ("PIT", "Pittsburgh"), ("CIN", "Cincinnati"))
+
+  val AmericanLeagueTeams01 =
+    List(("CLE", "Cleveland"), ("CHA", "Chicago"), ("MLA", "Milwaukee"),
+      ("DET", "Detroit"), ("BOS", "Boston"), ("BLA", "Baltimore"),
+      ("WS1", "Washington"), ("PHA", "Philadelphia"))
+
+  val AmericanLeagueTeams =
+    List(("CLE", "Cleveland"), ("CHA", "Chicago"), ("SLA", "St. Louis"),
+      ("DET", "Detroit"), ("BOS", "Boston"), ("NYA", "New York"),
+      ("WS1", "Washington"), ("PHA", "Philadelphia"))
 
   val year = 1901
-  
   val league = "NL"
-
   val teams = loadTeams(NationalLeagueTeams)
-
   var currentDay: Date = null
-  
   var lastDay: Date = null
-  
   val schedule = loadSchedule()
+  
+  //playUntil(Date(1901, 4, 20), LineWriter.Console)
+  playAllGames(LineWriter.Console)
 
-  playUntil(Date(1901, 4, 20), LineWriter.Console)
-  
-  
-  
-  
-  
-  
   def loadTeams(ids: List[(String, String)]): Map[String, Team] = {
     val cards = new CardFactories(year, league)
     val teams = mutable.Map[String, Team]()
@@ -77,11 +73,11 @@ object CardBasedSeason extends App {
   def playAllGames(out: LineWriter = LineWriter.Console) {
     while (hasDaysLeft) playDay(out)
   }
-  
-  def playUntil(day: Date, out:LineWriter = LineWriter.Console) {
+
+  def playUntil(day: Date, out: LineWriter = LineWriter.Console) {
     while (currentDay < day && hasDaysLeft) playDay(out)
   }
-  
+
   def playDay(out: LineWriter = LineWriter.Console) {
     if (!hasDaysLeft) return
     val sgs = schedule.gamesOnDate(currentDay)
@@ -92,16 +88,20 @@ object CardBasedSeason extends App {
     out.println("Games on " + currentDay.toISO8601 + ":")
     out.println("====================")
     for (sg <- sgs) {
-      val g = new Game(teams(sg.homeTeamId).asOpponent, teams(sg.roadTeamId).asOpponent)
-      g.play(out)
+      val homeTeam = teams(sg.homeTeamId)
+      val roadTeam = teams(sg.roadTeamId)
+      val g = new Game(homeTeam.asOpponent, roadTeam.asOpponent)
+      val result = g.play(out)
+      homeTeam.addGameResult(result)
+      roadTeam.addGameResult(result.reverse())
     }
-    //standings.print(out)
+    standings.print(out)
     currentDay = currentDay.nextDay
   }
-    
+
   def hasDaysLeft = lastDay >= currentDay
 
-  
+  def standings = new Standings(teams.values)
   
   
   class Team(val name: String, val pitching: PitchingCard, val batting: BattingCard) {
@@ -126,6 +126,60 @@ object CardBasedSeason extends App {
     def streak: String = resultLog.streak
 
     def nameAndRecord = name + " (" + record.wlt.toStringWithoutTies + ")"
+  }
+
+  
+  final class Standings(ts: Iterable[Team]) {
+
+    private val teams = ts.toArray.sortWith((t1, t2) => (t1.record > t2.record))
+
+    private val gbCmp = teams.map(_.record).sortWith((r1, r2) => r1.winLossDiff > r2.winLossDiff)(0)
+
+    private val statLine = new FormattedStatLine(
+      FormattedStat.stringLike("Team Name", 20, HorizontalAlign.Left),
+      FormattedStat.intLike("W", 3),
+      FormattedStat.intLike("L", 5),
+      FormattedStat.averageLike("PCT", 6),
+      FormattedStat.stringLike("GB", 6),
+      FormattedStat.intLike("RS", 7),
+      FormattedStat.intLike("RA", 6),
+      FormattedStat.stringLike("L10", 7),
+      FormattedStat.stringLike("STRK", 6),
+      FormattedStat.stringLike("PythWL", 10),
+      FormattedStat.intLike("LUCK", 5),
+      FormattedStat.stringLike("1-RUN", 8))
+
+    private val pctFormat = new DecimalFormat(".000")
+
+    def print(out: LineWriter = LineWriter.Console) {
+      printHeader(out)
+      teams.foreach(printTeam(_, out))
+      statLine.printSeparator(out, '=')
+      out.println()
+    }
+
+    private def printHeader(out: LineWriter) {
+      statLine.printHeader(out)
+      statLine.printSeparator(out, '-')
+    }
+
+    private def printTeam(t: Team, out: LineWriter) {
+      val pct = pctFormat.format(t.record.winPct)
+      val gb = new GamesBehind(gbCmp, t.record).toString
+      statLine.printLine(out, List(
+        t.name,
+        t.record.wins,
+        t.record.losses,
+        t.record.winPct,
+        gb,
+        t.record.runsScored,
+        t.record.runsAgainst,
+        t.last10.toStringWithoutTies,
+        t.streak,
+        t.record.pythagoreanWL.toStringWithoutTies,
+        t.record.luck,
+        t.oneRun.toStringWithoutTies))
+    }
   }
   
 }
