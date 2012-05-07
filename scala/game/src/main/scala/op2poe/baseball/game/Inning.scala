@@ -15,7 +15,11 @@ class Inning(var pitcher: PitchingCard, val lineup: Iterator[BattingCard]) {
   
   private var numberOfOuts = 0
   
+  private var numberOfRuns = 0
+  
   private var numberOfHits = 0
+  
+  private var runnersOn: RunnersOn = NoBaseRunners
   
   def play() {
     while (numberOfOuts < 3) {
@@ -23,6 +27,10 @@ class Inning(var pitcher: PitchingCard, val lineup: Iterator[BattingCard]) {
       val card: PlayerCard = if (cardPicker.roll() == "P") pitcher else batter
       val outcome = card.outcome()
       println(outcome)
+      var runsScoredOnPlay = 0
+      val x = runnersOn.advance(outcome, numberOfOuts)
+      runnersOn = x._1
+      numberOfRuns += x._2
       if (outcome.isHit) numberOfHits += 1
       if (outcome.isOut) numberOfOuts += 1
       println("end of inning")
