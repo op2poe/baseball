@@ -28,14 +28,12 @@ class Inning(var pitcher: PitchingCard, val battingOrder: Iterator[BattingCard])
       val batter = battingOrder.next
       val card: PlayerCard = if (cardPicker.roll() == "P") pitcher else batter
       val outcome = card.outcome()
-      println(outcome)
       var runsScoredOnPlay = 0
       val x = runnersOn.advance(outcome, numberOfOuts)
       runnersOn = x._1
       numberOfRuns += x._2
       if (outcome.isHit) numberOfHits += 1
       if (outcome.isOut) numberOfOuts += 1
-      println("end of inning")
     }
   }
   

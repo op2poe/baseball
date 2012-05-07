@@ -5,8 +5,6 @@ import scala.collection.mutable.ListBuffer
 import scala.collection.mutable.ArrayBuffer
 
 final class LineScore(private val line: Array[Int]) extends Iterable[Int] {
-
-  require(line.length > 0)
   
   def iterator: Iterator[Int] = 
     if (line.last == -1) line.init.iterator else line.iterator
@@ -14,6 +12,10 @@ final class LineScore(private val line: Array[Int]) extends Iterable[Int] {
   def toPrettyString: String = {
       val slices = for (i <- List.range(0, line.length, 3)) yield line.slice(i, i + 3)
       slices.map(s => s.map(toString).mkString(" ")).mkString("  ")
+  }
+  
+  def + (score: Int) = {
+    new LineScore(line ++ Array(score))
   }
     
   override def toString = line.map(toString).mkString
@@ -35,6 +37,8 @@ final class LineScore(private val line: Array[Int]) extends Iterable[Int] {
 }
 
 object LineScore {
+ 
+  def empty = new LineScore(Array[Int]())
   
   def fromString(line: String): LineScore = {
     val b = ArrayBuffer.empty[Int]

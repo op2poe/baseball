@@ -7,5 +7,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/data-structs"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/util"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/io"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/game"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

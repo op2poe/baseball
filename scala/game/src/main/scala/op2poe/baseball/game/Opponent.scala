@@ -5,13 +5,13 @@ import op2poe.baseball.data.LineScore
 
 final class Opponent(val name: String, val lineup: Lineup) {
   
-  private val innings = new ListBuffer[Int]
+  private var innings = LineScore.empty
   
   def addInningScore(score: Int) {
     innings += score
   }
   
-  def lineScore = new LineScore(innings.toArray)
+  def lineScore = innings
 
   def runs = innings.sum
   
