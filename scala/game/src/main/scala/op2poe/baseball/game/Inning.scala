@@ -9,7 +9,7 @@ import op2poe.baseball.data.game.Out
 import op2poe.util.Die
 import op2poe.util.Die.Side
 
-class Inning(var pitcher: PitchingCard, val lineup: Iterator[BattingCard]) {
+class Inning(var pitcher: PitchingCard, val battingOrder: Iterator[BattingCard]) {
 
   private val cardPicker = Die(Side("P", 1), Side("B", 1))
   
@@ -17,13 +17,15 @@ class Inning(var pitcher: PitchingCard, val lineup: Iterator[BattingCard]) {
   
   private var numberOfRuns = 0
   
+  def runsScored = numberOfRuns
+  
   private var numberOfHits = 0
   
   private var runnersOn: RunnersOn = NoBaseRunners
   
   def play() {
     while (numberOfOuts < 3) {
-      val batter = lineup.next
+      val batter = battingOrder.next
       val card: PlayerCard = if (cardPicker.roll() == "P") pitcher else batter
       val outcome = card.outcome()
       println(outcome)
