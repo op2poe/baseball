@@ -3,9 +3,11 @@ package op2poe.baseball.game
 import op2poe.baseball.data.Runs
 import op2poe.io.LineWriter
 import op2poe.baseball.data.LineScore
+import op2poe.baseball.data.pitching.PitchingStats
+import op2poe.baseball.data.batting.BattingStats
 
 final class Game(val homeTeam: Opponent, val roadTeam: Opponent) {
-
+  
   def play(output: LineWriter = LineWriter.Console): Runs = {
     for (_ <- 1 to 8) {
       topHalf()
@@ -14,7 +16,7 @@ final class Game(val homeTeam: Opponent, val roadTeam: Opponent) {
     do {
       topHalf()
       if (roadTeam.runs >= homeTeam.runs) bottomHalf()
-      else homeTeam.addInningScore(-1)
+      else homeTeam.updateBattingInning(-1, BattingStats.empty)
     } while (roadTeam.runs == homeTeam.runs)
     val result = new Runs(homeTeam.runs, roadTeam.runs)
     printLineScores(result, output)
@@ -22,17 +24,16 @@ final class Game(val homeTeam: Opponent, val roadTeam: Opponent) {
   }
 
   private def topHalf() {
-    playInning(homeTeam, roadTeam)
+    Inning.play(homeTeam, roadTeam)
   }
 
   private def bottomHalf() {
-    playInning(roadTeam, homeTeam)
+    Inning.play(roadTeam, homeTeam)
   }
 
   private def playInning(pitching: Opponent, batting: Opponent) {
-    val inning = new Inning(pitching.pitcher, batting.batters)
+    val inning = new Inning(pitching, batting)
     inning.play()
-    batting.addInningScore(inning.runsScored)
   }
 
   private def printLineScores(r: Runs, out: LineWriter) {

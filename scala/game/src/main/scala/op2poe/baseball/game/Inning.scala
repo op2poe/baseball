@@ -16,7 +16,7 @@ import op2poe.baseball.data.game.Triple
 import op2poe.baseball.data.game.Homerun
 import op2poe.baseball.data.game.Walk
 
-class Inning(var pitcher: PitchingCard, val battingOrder: Iterator[BattingCard]) {
+class Inning(private val pitching: Opponent, private val batting: Opponent) {
 
   private val cardPicker = Die(Side("P", 1), Side("B", 1))
   
@@ -30,8 +30,8 @@ class Inning(var pitcher: PitchingCard, val battingOrder: Iterator[BattingCard])
 
   def play() {
     while (numberOfOuts < 3) {
-      val batter = battingOrder.next
-      val card: PlayerCard = if (cardPicker.roll() == "P") pitcher else batter
+      val batter = batting.batters.next
+      val card: PlayerCard = if (cardPicker.roll() == "P") pitching.pitcher else batter
       val outcome = card.outcome()
       var runsScoredOnPlay = 0
       val x = runnersOn.advance(outcome, numberOfOuts)
@@ -39,6 +39,8 @@ class Inning(var pitcher: PitchingCard, val battingOrder: Iterator[BattingCard])
       updateStats(outcome, x._2)
       if (outcome.isOut) numberOfOuts += 1
     }
+    pitching.updatePitchingInning(pitchingStats)
+    batting.updateBattingInning(runsScored, battingStats)
   }
 
   private def updateStats(outcome: Outcome, runs: Int) {
@@ -65,6 +67,15 @@ class Inning(var pitcher: PitchingCard, val battingOrder: Iterator[BattingCard])
         pitchingStats = pitchingStats.add(bf = 1, outs = 1, r = runs)
         battingStats = battingStats.add(ab = 1, r = runs)
     }
+  }
+  
+}
+
+object Inning {
+  
+  def play(pitching: Opponent, batting: Opponent) {
+    val inning = new Inning(pitching, batting)
+    inning.play()
   }
   
 }
