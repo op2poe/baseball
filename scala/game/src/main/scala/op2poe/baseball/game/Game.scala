@@ -15,7 +15,10 @@ final class Game(val homeTeam: Opponent, val roadTeam: Opponent) {
     }
     do {
       topHalf()
-      if (roadTeam.runs >= homeTeam.runs) bottomHalf()
+      if (roadTeam.runs >= homeTeam.runs) {
+        val runsToWin = roadTeam.runs - homeTeam.runs + 1
+        bottomHalf(runsToWin)
+      }
       else homeTeam.updateBattingInning(-1, BattingStats.empty)
     } while (roadTeam.runs == homeTeam.runs)
     val result = new Runs(homeTeam.runs, roadTeam.runs)
@@ -27,8 +30,8 @@ final class Game(val homeTeam: Opponent, val roadTeam: Opponent) {
     Inning.play(homeTeam, roadTeam)
   }
 
-  private def bottomHalf() {
-    Inning.play(roadTeam, homeTeam)
+  private def bottomHalf(runsToWin: Int = Int.MaxValue) {
+    Inning.play(roadTeam, homeTeam, runsToWin)
   }
 
   private def playInning(pitching: Opponent, batting: Opponent) {

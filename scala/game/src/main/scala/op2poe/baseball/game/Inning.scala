@@ -28,8 +28,8 @@ class Inning(private val pitching: Opponent, private val batting: Opponent) {
   def runsScored = battingStats.runs
   def numberOfHits = battingStats.hits
 
-  def play() {
-    while (numberOfOuts < 3) {
+  def play(runsToWin: Int = Int.MaxValue) {
+    while (numberOfOuts < 3 && runsScored < runsToWin) {
       val batter = batting.batters.next
       val card: PlayerCard = if (cardPicker.roll() == "P") pitching.pitcher else batter
       val outcome = card.outcome()
@@ -73,9 +73,9 @@ class Inning(private val pitching: Opponent, private val batting: Opponent) {
 
 object Inning {
   
-  def play(pitching: Opponent, batting: Opponent) {
+  def play(pitching: Opponent, batting: Opponent, runsToWin: Int = Int.MaxValue) {
     val inning = new Inning(pitching, batting)
-    inning.play()
+    inning.play(runsToWin)
   }
   
 }
