@@ -11,8 +11,8 @@ abstract class Opponent(val name: String, val lineup: Lineup) {
   def endOfGame(result: Runs, batting: BattingStats, pitching: PitchingStats)
   
   private var innings = LineScore.empty
-  private var pitchingStats = PitchingStats.empty
-  private var battingStats = BattingStats.empty
+  private var pitchingStats = PitchingStats(g = 1)
+  private var battingStats = BattingStats(g = 1)
 
   final def updateBattingInning(score: Int, stats: BattingStats) {
     innings += score
