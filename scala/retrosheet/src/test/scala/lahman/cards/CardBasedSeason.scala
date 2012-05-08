@@ -20,6 +20,9 @@ import op2poe.baseball.data.GamesBehind
 import java.text.DecimalFormat
 import op2poe.baseball.io.text.FormattedStat
 import op2poe.baseball.io.text.HorizontalAlign
+import op2poe.baseball.io.text.batting.BattingLineFormat
+import op2poe.baseball.data.batting.BattingStats
+import op2poe.baseball.data.pitching.PitchingStats
 
 object CardBasedSeason extends App {
 
@@ -45,8 +48,11 @@ object CardBasedSeason extends App {
   var lastDay: Date = null
   val schedule = loadSchedule()
   
+  val out = LineWriter.Console
+  
   //playUntil(Date(1901, 4, 20), LineWriter.Console)
-  playAllGames(LineWriter.Console)
+  playAllGames(out)
+  printBattingStats(out)
 
   def loadTeams(ids: List[(String, String)]): Map[String, Team] = {
     val cards = new CardFactories(year, league)
@@ -102,12 +108,24 @@ object CardBasedSeason extends App {
   def hasDaysLeft = lastDay >= currentDay
 
   def standings = new Standings(teams.values)
+
+  def printBattingStats(out: LineWriter) {
+    out.println()
+    out.println("Batting:")
+    val fmt = new BattingLineFormat()
+    out.println(fmt.header)
+    out.println(fmt.separator('-'))
+    List(teams.values.toArray:_*).sortWith(_.name < _.name).foreach(t =>
+      out.println(fmt.format(t.battingStats)))
+  }
   
   
   class Team(val name: String, val pitching: PitchingCard, val batting: BattingCard) {
 
     var record = new TeamRecord
     val resultLog = new ResultLog
+    var battingStats = BattingStats.empty
+    var pitchingStats = PitchingStats.empty
 
     def asOpponent() = {
       val lineup = new Lineup(pitching, List.fill(9)(batting))
