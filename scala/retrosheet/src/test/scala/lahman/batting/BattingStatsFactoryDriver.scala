@@ -21,13 +21,13 @@ object BattingStatsFactoryDriver extends App {
     val lines = teamFile(1901, "NL").values
     val stats = (BattingStats.empty /: lines)(_ + BattingStatsFactory.fromTeamLine(_))
     println("1901 National League:")
-    printStats(stats)
+    printStats("National League", stats)
   }
   
-  def printStats(stats: BattingStats) {
+  def printStats(name: String, stats: BattingStats) {
     val format = new BattingLineFormat
     println(format.header)
-    println(format.format(stats))
+    println(format.format(name, stats))
     println
   }
   
@@ -35,14 +35,14 @@ object BattingStatsFactoryDriver extends App {
     val line = teamFile(1927, "AL", "NYA")
     val stats = BattingStatsFactory.fromTeamLine(line)
     println("1927 Yankees:")
-    printStats(stats)
+    printStats("New York", stats)
   }
   
   def print1921BabeRuth() {
     val lines = playerLines(("ruthba01", 1921))
     val stats = (BattingStats.empty /: lines) (_ + BattingStatsFactory.fromPlayerLine(_))
     println("1921 Babe Ruth:")
-    printStats(stats)
+    printStats("Babe Ruth", stats)
   }
   
 }

@@ -114,7 +114,7 @@ object CardBasedSeason extends App {
     out.println(fmt.header)
     out.println(fmt.separator('-'))
     List(teams.values.toArray:_*).sortWith(_.name < _.name).foreach(t =>
-      out.println(fmt.format(t.battingStats)))
+      out.println(fmt.format(t.name, t.battingStats)))
   }
   
   

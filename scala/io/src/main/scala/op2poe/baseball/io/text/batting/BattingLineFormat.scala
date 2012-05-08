@@ -4,10 +4,12 @@ import op2poe.baseball.io.text.FormattedStatLine
 import op2poe.baseball.io.text.FormattedStatLine
 import op2poe.baseball.io.text.FormattedStat
 import op2poe.baseball.data.batting.BattingStats
+import op2poe.baseball.io.text.HorizontalAlign
 
-class BattingLineFormat {
+class BattingLineFormat(private var nameWidth: Int = 20) {
 
     val line = new FormattedStatLine(
+        FormattedStat.stringLike("", nameWidth, HorizontalAlign.Left),
         FormattedStat.intLike("G", 5),
         FormattedStat.intLike("AB", 6),
         FormattedStat.intLike("R", 6),
@@ -30,7 +32,8 @@ class BattingLineFormat {
     
     def separator(c: Char): String = line.separator(c)
     
-    def format(stats: BattingStats): String = line.formatLine(List[Any](
+    def format(name: String, stats: BattingStats): String = line.formatLine(List[Any](
+        name,
         stats.games,
         stats.atBats, 
         stats.runs,
