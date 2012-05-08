@@ -41,9 +41,9 @@ object CardBasedSeason extends App {
       ("DET", "Detroit"), ("BOS", "Boston"), ("NYA", "New York"),
       ("WS1", "Washington"), ("PHA", "Philadelphia"))
 
-  val year = 1914
-  val league = "NL"
-  val teams = loadTeams(NationalLeagueTeams)
+  val year = 1903
+  val league = "AL"
+  val teams = loadTeams(AmericanLeagueTeams)
   var currentDay: Date = null
   var lastDay: Date = null
   val schedule = loadSchedule()
@@ -115,6 +115,9 @@ object CardBasedSeason extends App {
     out.println(fmt.separator('-'))
     List(teams.values.toArray:_*).sortWith(_.name < _.name).foreach(t =>
       out.println(fmt.format(t.name, t.battingStats)))
+    out.println(fmt.separator('='))
+    val leagueStats = (BattingStats.empty /: teams.values.map(_.battingStats)) (_ + _)
+    out.println(fmt.format("Total:", leagueStats))
   }
   
   
