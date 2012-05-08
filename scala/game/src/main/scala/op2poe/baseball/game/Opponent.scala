@@ -24,6 +24,8 @@ final class Opponent(val name: String, val lineup: Lineup) {
 
   def runs = innings.sum
   
+  def hits = battingStats.hits
+  
   def pitcher = lineup.pitcher
   
   def batters = lineup.batters
