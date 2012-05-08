@@ -38,7 +38,7 @@ object CardBasedSeason extends App {
       ("DET", "Detroit"), ("BOS", "Boston"), ("NYA", "New York"),
       ("WS1", "Washington"), ("PHA", "Philadelphia"))
 
-  val year = 1901
+  val year = 1914
   val league = "NL"
   val teams = loadTeams(NationalLeagueTeams)
   var currentDay: Date = null

@@ -8,21 +8,26 @@ import op2poe.baseball.data.game.Strikeout
 import op2poe.baseball.data.game.Out
 import op2poe.util.Die
 import op2poe.util.Die.Side
+import op2poe.baseball.data.pitching.PitchingStats
+import op2poe.baseball.data.batting.BattingStats
+import op2poe.baseball.data.game.Single
+import op2poe.baseball.data.game.Double
+import op2poe.baseball.data.game.Triple
+import op2poe.baseball.data.game.Homerun
+import op2poe.baseball.data.game.Walk
 
 class Inning(var pitcher: PitchingCard, val battingOrder: Iterator[BattingCard]) {
 
   private val cardPicker = Die(Side("P", 1), Side("B", 1))
   
   private var numberOfOuts = 0
-  
-  private var numberOfRuns = 0
-  
-  def runsScored = numberOfRuns
-  
-  private var numberOfHits = 0
-  
   private var runnersOn: RunnersOn = NoBaseRunners
-  
+  private var pitchingStats = PitchingStats.empty
+  private var battingStats = BattingStats.empty
+
+  def runsScored = battingStats.runs
+  def numberOfHits = battingStats.hits
+
   def play() {
     while (numberOfOuts < 3) {
       val batter = battingOrder.next
@@ -31,9 +36,34 @@ class Inning(var pitcher: PitchingCard, val battingOrder: Iterator[BattingCard])
       var runsScoredOnPlay = 0
       val x = runnersOn.advance(outcome, numberOfOuts)
       runnersOn = x._1
-      numberOfRuns += x._2
-      if (outcome.isHit) numberOfHits += 1
+      updateStats(outcome, x._2)
       if (outcome.isOut) numberOfOuts += 1
+    }
+  }
+
+  private def updateStats(outcome: Outcome, runs: Int) {
+    outcome match {
+      case Single => 
+        pitchingStats = pitchingStats.add(bf = 1, h = 1, r = runs)
+        battingStats = battingStats.add(ab = 1, h = 1, r = runs)
+      case Double =>
+        pitchingStats = pitchingStats.add(bf = 1, h = 1, r = runs)
+        battingStats = battingStats.add(ab = 1, h = 1, doubles = 1, r = runs)
+      case Triple =>
+        pitchingStats = pitchingStats.add(bf = 1, h = 1, r = runs)
+        battingStats = battingStats.add(ab = 1, h = 1, triples = 1, r = runs)
+      case Homerun =>
+        pitchingStats = pitchingStats.add(bf = 1, h = 1, hr = 1, r = runs)
+        battingStats = battingStats.add(ab = 1, h = 1, hr = 1, r = runs)
+      case Strikeout =>
+        pitchingStats = pitchingStats.add(bf = 1, so = 1, outs = 1, r = runs)
+        battingStats = battingStats.add(ab = 1, so = 1, r = runs)
+      case Walk =>
+        pitchingStats = pitchingStats.add(bf = 1, bb = 1, r = runs)
+        battingStats = battingStats.add(bb = 1, r = runs)
+      case Out =>
+        pitchingStats = pitchingStats.add(bf = 1, outs = 1, r = runs)
+        battingStats = battingStats.add(ab = 1, r = runs)
     }
   }
   
