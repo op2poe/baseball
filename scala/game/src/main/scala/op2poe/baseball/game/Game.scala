@@ -22,6 +22,8 @@ final class Game(val homeTeam: Opponent, val roadTeam: Opponent) {
       else homeTeam.updateBattingInning(-1, BattingStats.empty)
     } while (roadTeam.runs == homeTeam.runs)
     val result = new Runs(homeTeam.runs, roadTeam.runs)
+    homeTeam.endOfGame(result)
+    roadTeam.endOfGame(result.reverse())
     printLineScores(result, output)
     result
   }

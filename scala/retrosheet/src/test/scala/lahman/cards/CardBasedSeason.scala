@@ -98,8 +98,6 @@ object CardBasedSeason extends App {
       val roadTeam = teams(sg.roadTeamId)
       val g = new Game(homeTeam.asOpponent, roadTeam.asOpponent)
       val result = g.play(out)
-      homeTeam.addGameResult(result)
-      roadTeam.addGameResult(result.reverse())
     }
     standings.print(out)
     currentDay = currentDay.nextDay
@@ -129,12 +127,14 @@ object CardBasedSeason extends App {
 
     def asOpponent() = {
       val lineup = new Lineup(pitching, List.fill(9)(batting))
-      new Opponent(name, lineup)
-    }
-
-    def addGameResult(runs: Runs) {
-      record = record.addResult(runs)
-      resultLog.add(runs)
+      new Opponent(name, lineup) {
+        def endOfGame(result: Runs, batting: BattingStats, pitching: PitchingStats) {
+          record = record.addResult(result)
+          resultLog.add(result)
+          battingStats += batting
+          pitchingStats += pitching
+        }
+      }
     }
 
     def last10 = resultLog.last10

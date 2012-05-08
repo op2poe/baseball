@@ -4,30 +4,37 @@ import scala.collection.mutable.ListBuffer
 import op2poe.baseball.data.LineScore
 import op2poe.baseball.data.pitching.PitchingStats
 import op2poe.baseball.data.batting.BattingStats
+import op2poe.baseball.data.Runs
 
-final class Opponent(val name: String, val lineup: Lineup) {
+abstract class Opponent(val name: String, val lineup: Lineup) {
+  
+  def endOfGame(result: Runs, batting: BattingStats, pitching: PitchingStats)
   
   private var innings = LineScore.empty
   private var pitchingStats = PitchingStats.empty
   private var battingStats = BattingStats.empty
 
-  def updateBattingInning(score: Int, stats: BattingStats) {
+  final def updateBattingInning(score: Int, stats: BattingStats) {
     innings += score
     battingStats += stats
   }
   
-  def updatePitchingInning(stats: PitchingStats) {
+  final def updatePitchingInning(stats: PitchingStats) {
     pitchingStats += stats
   }
   
-  def lineScore = innings
+  final def endOfGame(result: Runs) {
+    endOfGame(result, battingStats, pitchingStats)
+  }
+  
+  final def lineScore = innings
 
-  def runs = innings.sum
+  final def runs = innings.sum
   
-  def hits = battingStats.hits
+  final def hits = battingStats.hits
   
-  def pitcher = lineup.pitcher
+  final def pitcher = lineup.pitcher
   
-  def batters = lineup.batters
+  final def batters = lineup.batters
   
 }
