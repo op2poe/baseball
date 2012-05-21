@@ -25,9 +25,7 @@ object TeamSpeedIndicator extends App {
     leagueStats += teamStats
     values += new Entry(id, calculate(teamStats))
   }
-  for (e <- values.sorted) {
-    println(e)
-  }
+  values.sorted.foreach(println)
   println("----------")
   println(new Entry("TOT: ", calculate(leagueStats)))
   
