@@ -24,25 +24,19 @@ object FieldingOutsDistribution extends App {
       }
     }
     
-    private def checkEvent(line: String): Option[Int] = {
-      line match {
-        case out(pos) => toInt(pos)
-        case fc(pos) => toInt(pos)
-        case error(pos) => toInt(pos)
+    private def checkEvent(event: String): Option[Int] = {
+      event match {
+        case out(pos) => Some(pos.toInt)
+        case fc(pos) => Some(pos.toInt)
+        case error(pos) => Some(pos.toInt)
         case _ => None
       }
-    }
-    
-    private def toInt(pos: String) = Some(pos.toInt)
-    
-    def printResult() {
-      distrib.printResult()
     }
   }
 
   val filePath = "C:\\z\\coding\\bb\\retrosheet\\play-by-play\\1921\\1921NYA.EVA"
   val processor = new Processor()
   EventFileReader.readAllEvents(filePath, processor)
-  processor.printResult()
+  processor.distrib.printResult()
   
 }
