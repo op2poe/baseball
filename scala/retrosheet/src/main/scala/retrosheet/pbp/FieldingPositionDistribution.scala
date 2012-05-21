@@ -9,7 +9,7 @@ class FieldingPositionDistribution {
   def printResult() {
     val total = 1.0 * counts.sum
     println("total: " + total.toInt)
-    def ratioAsString(c: Int) = "%.2f".format(c / total)
+    def ratioAsString(c: Int) = "%.3f".format(c / total)
     counts.indices.foreach(i => println(toPos(i + 1) + ": " + ratioAsString(counts(i))))
     val of = counts(6) + counts(7) + counts(8)
     println("Outfield: " + ratioAsString(of))
