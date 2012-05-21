@@ -34,9 +34,12 @@ object FieldingOutsDistribution extends App {
     }
   }
 
-  val filePath = "C:\\z\\coding\\bb\\retrosheet\\play-by-play\\1921\\1921NYA.EVA"
+  val fileNames = List("1921BRO.EVN", "1921BSN.EVN",  "1921CHN.EVN", "1921CIN.EVN", "1921NY1.EVN",
+      "1921PHI.EVN", "1921PIT.EVN", "1921SLN.EVN")
+  val root = "C:\\z\\coding\\bb\\retrosheet\\play-by-play\\1921\\"
+  val filePaths = fileNames.map(root + _)
   val processor = new Processor()
-  EventFileReader.readAllEvents(filePath, processor)
+  EventFileReader.readAllEvents(filePaths, processor)
   processor.distrib.printResult()
   
 }
