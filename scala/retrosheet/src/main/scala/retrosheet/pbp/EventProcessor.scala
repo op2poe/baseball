@@ -1,6 +1,6 @@
 package retrosheet.pbp
 
-trait EventProcessor extends PlayProcessor {
+trait EventProcessor {
 
   def processPlay(play: String): Unit = {
     val parts = play.split(",")
