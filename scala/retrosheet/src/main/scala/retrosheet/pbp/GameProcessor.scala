@@ -8,14 +8,18 @@ abstract class GameProcessor {
   
   private var battingTeam = -1
   
+  private var stopped = false
+  
   def processFile(filePath: String) {
       val source = Source.fromFile(filePath)
       for (line <- source.getLines) {
+        if (stopped) return
         val parts = line.split(",");
         parts(0) match {
           case "id" => newGame()
           case "data" => endGame()
           case "play" => inspectPlayRecord(parts)
+          case _ =>
         }
       }
   }
@@ -39,5 +43,9 @@ abstract class GameProcessor {
   def processEvent(event: String): Unit;
   
   def endGame(): Unit;
+  
+  final def stop() {
+    stopped = true
+  }
   
 }
