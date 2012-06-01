@@ -32,15 +32,14 @@ abstract class GameProcessor {
       battingTeam = t;
       newInning(i, t)
     }
-    val event = play(6)
-    processEvent(event)
+    processPlay(play(3), play(6))
   }
 
   def newGame(): Unit;
   
   def newInning(inning: Int, battingTeam: Int): Unit;
   
-  def processEvent(event: String): Unit;
+  def processPlay(playerId: String, event: String): Unit;
   
   def endGame(): Unit;
   

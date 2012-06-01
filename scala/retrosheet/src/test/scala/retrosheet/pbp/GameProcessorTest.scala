@@ -7,26 +7,31 @@ object GameProcessorTest extends App {
   val root = "C:\\z\\coding\\bb\\retrosheet\\play-by-play\\1921\\"
   val filePaths = fileNames.map(root + _)
   val processor = new Processor()
+  for (path <- filePaths) {
+    println("path = " + path)
+    processor.processFile(path)
+  }
   processor.processFile(filePaths(0))
 
   
   class Processor extends GameProcessor {
     
     def newGame() {
-      println("New game")
+//      println("New game")
     }
     
     def endGame() {
-      println("Game over")
-      stop()
+//      println("Game over")
+//      stop()
     }
     
     def newInning(inning: Int, battingTeam: Int) {
-      println("Inning: %d, batting team: %d".format(inning, battingTeam))
+//      println("Inning: %d, batting team: %d".format(inning, battingTeam))
     }
     
-    def processEvent(event: String) {
-      println("Event: " + event)
+    def processPlay(playerId: String, event: String) {
+//      println("Player: " + playerId + ", Event: " + event)
+      if (playerId.isEmpty) println("No player ID: " + event)
     }
   }
   
