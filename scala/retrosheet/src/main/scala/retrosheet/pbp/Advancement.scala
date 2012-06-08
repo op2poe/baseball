@@ -9,7 +9,7 @@ package retrosheet.pbp
  * {@code fromBase} and {@code toBase} are 1-based, since the play-by-play 
  * files are.
  */
-class Advancement(val fromBase: Int, val toBase: Int) {
+case class Advancement(val fromBase: Int, val toBase: Int) {
 
   require(fromBase > 0)
   require(toBase >= fromBase)
