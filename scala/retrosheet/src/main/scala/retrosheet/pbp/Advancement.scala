@@ -16,22 +16,19 @@ case class Advancement(val fromBase: Int, val toBase: Int) {
   require(toBase <= 4)
   
   /**
-   * Applies this {@code Advancement} object to the current 
-   * base situation, by modifying the inputted array.
+   * Applies this {@code Advancement} object to the current base situation, 
+   * by modifying the inputted {@code Bases} object.
    */
-  def apply(bases: Array[Option[String]]) {
+  def applyTo(bases: Bases) {
     if (fromBase == toBase) return
-    val runner = bases(fromBase - 1)
+    val runner = bases(fromBase)
     runner match {
       case None => throw new Exception("No runner on base " + fromBase)
-      case Some(player) =>
-        bases(toBase - 1) match {
-          case Some(otherRunner) => throw new Exception("Two men on base " + toBase + "!")
-          case None => {
-            bases(toBase - 1) = runner
-            bases(fromBase - 1) = None
-          }
+      case Some(player) => 
+        if (toBase < 4) {
+        	bases(toBase) = runner
         }
+        bases remove toBase
     }
   }
   
