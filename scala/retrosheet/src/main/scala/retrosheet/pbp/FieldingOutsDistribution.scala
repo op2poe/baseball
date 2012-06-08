@@ -22,6 +22,8 @@ object FieldingOutsDistribution extends App {
         case Some(i) => distrib += i
         case None => // not an out
       }
+      // Alternatively:
+      // p.foreach(distrib += _)
     }
     
     private def checkEvent(event: String): Option[Int] = {
