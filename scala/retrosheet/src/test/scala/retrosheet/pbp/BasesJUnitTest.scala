@@ -2,11 +2,17 @@ package retrosheet.pbp
 
 object BasesJUnitTest extends App {
 
+  testIsEmpty()
   testEquals()
   testApply()
+  testUpdate()
   testRemove()
   ensureTwoRunnersCannotBeOnSameBase()
   println("OK")
+  
+  def testIsEmpty() {
+    assert(Bases.empty().isEmpty)
+  }
   
   def testEquals() {
     assert(Bases.empty() == Bases.empty())
@@ -26,6 +32,18 @@ object BasesJUnitTest extends App {
     assert(Some("a") == b.second)
     b.remove(2)
     assert(None == b.second)
+    b.third = Some("a")
+    assert(Some("a") == b.third)
+  }
+  
+  def testUpdate() {
+    val b = Bases.empty()
+    b(1) = Some("a")
+    assert(Some("a") == b(1))
+    b(2) = Some("b")
+    assert(Some("b") == b(2))
+    b(3) = Some("c")
+    assert(Some("c") == b(3))
   }
   
   def ensureTwoRunnersCannotBeOnSameBase() {

@@ -12,8 +12,9 @@ package retrosheet.pbp
 case class Advancement(val fromBase: Int, val toBase: Int) {
 
   require(fromBase > 0)
-  require(toBase >= fromBase)
+  require(fromBase < 4);
   require(toBase <= 4)
+  require(toBase >= fromBase)
   
   /**
    * Applies this {@code Advancement} object to the current base situation, 
@@ -23,12 +24,12 @@ case class Advancement(val fromBase: Int, val toBase: Int) {
     if (fromBase == toBase) return
     val runner = bases(fromBase)
     runner match {
-      case None => throw new Exception("No runner on base " + fromBase)
+      case None => throw new IllegalBaseOperation("No runner on base " + fromBase)
       case Some(player) => 
         if (toBase < 4) {
         	bases(toBase) = runner
         }
-        bases remove toBase
+        bases remove fromBase
     }
   }
   

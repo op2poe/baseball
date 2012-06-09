@@ -11,10 +11,18 @@ class Bases private (private val bases: Array[Option[String]]) {
 
   def first = bases(0)
 
+  def first_=(runner: Option[String]): Unit = bases(0) = runner
+  
   def second = bases(1)
+
+  def second_=(runner: Option[String]): Unit = bases(1) = runner
 
   def third = bases(2)
 
+  def third_=(runner: Option[String]): Unit = bases(2) = runner
+
+  def isEmpty(): Boolean = bases.forall(_.isEmpty)
+  
   def update(base: Int, runner: Option[String]) {
     sanityCheck(base)
     runner match {
