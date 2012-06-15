@@ -6,9 +6,11 @@ package retrosheet.pbp
  * The batter is represented by {@code fromBase = 0}. A negative value
  * of {@code toBase} represents the runner being out at that base.
  * <p>
- * Due tothe retrosheet play-by-play format, it is sometimes the case that
+ * Due to the retrosheet play-by-play format, it is sometimes the case that
  * {@code fromBase} equals {@code toBase} (i.e. no advancement was
- * actually made).
+ * actually made). The special case of {@code fromBase = 0 && toBase == 0}
+ * represents the batter being put out at a base, for example trying to 
+ * stretch a single into a double.
  * <p>
  * {@code fromBase} and {@code toBase} are 1-based, since the play-by-play
  * files are.
@@ -68,10 +70,15 @@ case class Advancement(val fromBase: Int, val toBase: Int) {
    */
   def runScored = (toBase == 4)
 
+  /**
+   * Tests if this {@code Advancement} represents an out.
+   */
+  def isOut = (toBase < 0) || (fromBase == 0 && toBase == 0)
+
 }
 
 object Advancement {
-  
+
   def ofBatter(toBase: Int) = Advancement(0, toBase)
-  
+
 }
