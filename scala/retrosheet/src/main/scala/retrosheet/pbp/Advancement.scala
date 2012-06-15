@@ -17,7 +17,7 @@ case class Advancement(val fromBase: Int, val toBase: Int) {
 
   require(fromBase >= 0)
   require(fromBase < 4);
-  require(toBase.abs > 0)
+  require(toBase.abs >= 0)
   require(toBase.abs <= 4)
   require(toBase.abs >= fromBase)
 
