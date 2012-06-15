@@ -5,15 +5,32 @@ object AdvancementJUnitTest extends App {
   val ruth = Some("Ruth")
   val mantle = Some("Mantle")
 
+  testRunnersOn()
   testMovingRunnerFromFirstToSecond()
   testMovingRunnerFromSecondToThird()
   testMovingRunnerFromThirdToHome()
   testMovingRunnerFromFirstToThird()
   testNoAdvance()
+  testMovingBatterToFirstBase()
+  testBatterHitsHomerun()
+  testRunnerOnFirstOutAtSecond()
+  testRunnerOnSecondOutAtHome()
+  testBatterOutAtSecond()
   ensureRunnertoAdvanceIsOnBase()
   ensureWeDontPutTwoRunnerOnSameBase()
   println("OK")
 
+  def testRunnersOn() {
+    val b = Bases.empty()
+    assert(b.runnersOn == 0)
+    b.first = ruth
+    assert(b.runnersOn == 1)
+    b.second = mantle
+    assert(b.runnersOn == 2)
+    b.third = Some("Mays")
+    assert(b.runnersOn == 3)
+  }
+  
   def testMovingRunnerFromFirstToSecond() {
     val b = Bases.empty()
     b.first = ruth
@@ -87,4 +104,43 @@ object AdvancementJUnitTest extends App {
     }
   }
 
+  def testMovingBatterToFirstBase() {
+    val b = Bases.empty()
+    val a = Advancement.ofBatter(1)
+    a.applyTo(b)
+    assert(b.first == Some("[batter]"))
+  }
+  
+  def testBatterHitsHomerun() {
+    val b = Bases.empty()
+    val a = Advancement.ofBatter(4)
+    a.applyTo(b)
+    assert(a.runScored)
+    assert(b.isEmpty)
+  }
+  
+  def testRunnerOnFirstOutAtSecond() {
+    val b = Bases.empty()
+    b.first = ruth
+    val a = Advancement(1, -2)
+    a.applyTo(b)
+    assert(b.isEmpty)
+  }
+  
+  def testRunnerOnSecondOutAtHome() {
+    val b = Bases.empty()
+    b.second = ruth
+    val a = Advancement(2, -4)
+    a.applyTo(b)
+    assert(b.isEmpty)
+  }
+ 
+  def testBatterOutAtSecond() {
+    val b = Bases.empty
+    b.second = ruth
+    val a = Advancement.ofBatter(-2)
+    a.applyTo(b)
+    assert(b.runnersOn == 1)
+    assert(b.second == ruth)
+  }  
 }

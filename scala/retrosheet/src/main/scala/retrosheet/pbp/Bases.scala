@@ -23,6 +23,10 @@ class Bases private (private val bases: Array[Option[String]]) {
 
   def isEmpty(): Boolean = bases.forall(_.isEmpty)
   
+  // TODO: Can I be done simpler?
+  def runnersOn(): Int = bases.foldLeft(0)((i: Int, r: Option[String]) => 
+    if (r.isDefined) i + 1 else i)
+  
   def update(base: Int, runner: Option[String]) {
     sanityCheck(base)
     runner match {

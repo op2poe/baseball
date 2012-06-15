@@ -47,7 +47,7 @@ case class Advancement(val fromBase: Int, val toBase: Int) {
 
   private def advanceBatter(bases: Bases) {
     if (toBase > 0 & toBase < 4) {
-      bases(toBase) == Some("[batter]")
+      bases(toBase) = Some("[batter]")
     }
   }
 
@@ -68,4 +68,10 @@ case class Advancement(val fromBase: Int, val toBase: Int) {
    */
   def runScored = (toBase == 4)
 
+}
+
+object Advancement {
+  
+  def ofBatter(toBase: Int) = Advancement(0, toBase)
+  
 }
