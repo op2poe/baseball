@@ -5,12 +5,6 @@ import scala.util.matching.Regex
 class Situation private (private val bases: Bases,
 						 private var outs: Int,
 						 private var runsScored: Int) {
-
-  private var runnerAdvanceRegEx = new Regex("(\\d)-(\\d).*")
-  
-  private var runnerScoredRegEx = new Regex("(\\d)-H.*")
-  
-  private var runnerOutRegEx = new Regex("(\\d)X(\\d|H)")
   
   def processEvent(batter: String, event: String) {
     val parts = event.split("\\.")
@@ -24,7 +18,11 @@ class Situation private (private val bases: Bases,
     var batter = false
     val codes = adv.split(";")
     for (code <- codes) {
-      
+      val a = AdvancementParser.parse(code)
+      a.applyTo(bases)
+      if (a.runScored) runsScored += 1
+      if (a.isOut) outs += 1
+      batter = batter || a.fromBase == 0
     }
     return batter
   }
