@@ -15,6 +15,8 @@ import scala.util.matching.Regex
  */
 object BasicPlayParser {
 
+  private implicit def toList(a: Advancement) = List(a)
+  
   private val FieldingOut = new Regex("\\d\\d*")
   
   private val Single = new Regex("S(?:\\d\\d*)?")
@@ -41,18 +43,18 @@ object BasicPlayParser {
     // XXX: Split into multiple match expression to workaround bug
     // in Scala (supposedly being fixed in 2.10)
     s match {
-      case FieldingOut() => List(Advancement.ofBatter(-1))
-      case Single() => List(Advancement.ofBatter(1))
-      case Double() => List(Advancement.ofBatter(2))
-      case Triple() => List(Advancement.ofBatter(3))
-      case Homerun() => List(Advancement.ofBatter(4))
+      case FieldingOut() => Advancement.ofBatter(-1)
+      case Single() => Advancement.ofBatter(1)
+      case Double() => Advancement.ofBatter(2)
+      case Triple() => Advancement.ofBatter(3)
+      case Homerun() => Advancement.ofBatter(4)
       case _ => tryMore(s)
     }
   }
   
   private def tryMore(s: String): List[Advancement] = {
     s match {
-      case Error() => List(Advancement.ofBatter(1))
+      case Error() => Advancement.ofBatter(1)
       case GroundedIntoDP(baseRunner) =>
         List(outAtNextBase(baseRunner), Advancement.ofBatter(-1))
       case LinedIntoDP(baseRunner) =>
@@ -62,7 +64,7 @@ object BasicPlayParser {
         List(outAtNextBase(firstOut), outAtNextBase(secondOut), Advancement.ofBatter(-1))
       case LinedIntoTP(firstOut, secondOut) =>
         List(outAtNextBase(firstOut), outAtNextBase(secondOut), Advancement.ofBatter(0))
-      case Interference() => List(Advancement.ofBatter(1))
+      case Interference() => Advancement.ofBatter(1)
       case _ => 
         Console.err.println("Unrecognized basic play: " + s)
         Nil
