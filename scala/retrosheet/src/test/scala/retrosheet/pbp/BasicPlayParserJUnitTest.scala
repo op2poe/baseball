@@ -5,6 +5,7 @@ object BasicPlayParserJUnitTest extends App {
   testStraightForwardBaseHits()
   testStraightForwardFieldingOuts()
   testWalks()
+  testFieldersChoice()
   testErrors()
   testGroundRuleDouble()
   testHitByPitch()
@@ -13,6 +14,8 @@ object BasicPlayParserJUnitTest extends App {
   testGroundedIntoTriplePlay()
   testLinedIntoTriplePlay()
   testInterference()
+  testErrorOnFlyBall()
+  testNoPlay()
   println("OK")
   
   def testStraightForwardBaseHits() {
@@ -38,9 +41,18 @@ object BasicPlayParserJUnitTest extends App {
     oneAdvancement("543", Advancement.ofBatter(-1))
   }
   
+  def testFieldersChoice() {
+    oneAdvancement("FC5", Advancement.ofBatter(1))
+  }
+  
   def testErrors() {
     oneAdvancement("E1", Advancement.ofBatter(1))
     oneAdvancement("E7", Advancement.ofBatter(1))
+  }
+  
+  def testStrikeouts() {
+    oneAdvancement("K", Advancement.ofBatter(0))
+    oneAdvancement("K+WP", Advancement.ofBatter(0))
   }
   
   def testWalks() {
@@ -92,6 +104,18 @@ object BasicPlayParserJUnitTest extends App {
     oneAdvancement("C/E1", Advancement.ofBatter(1))
     oneAdvancement("C/E2", Advancement.ofBatter(1))
     oneAdvancement("C/E3", Advancement.ofBatter(1))
+  }
+  
+  def testErrorOnFlyBall() {
+    noAdvancement("FLE5")
+  }
+  
+  private def noAdvancement(s: String) {
+    assert(BasicPlayParser.parse(s) == Nil)
+  }
+  
+  def testNoPlay() {
+    noAdvancement("NP")
   }
   
 }

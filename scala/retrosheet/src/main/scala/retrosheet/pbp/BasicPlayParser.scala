@@ -27,13 +27,19 @@ object BasicPlayParser {
 
   private val Homerun = new Regex("H(?:R)?(?:\\d\\d*)?")
   
+  private val Strikeout = new Regex("K(?:\\+.*)")
+  
   private val Walk = new Regex("(?:(?:I)|(?:IW)|(?:W)).*")
+  
+  private val FieldersChoice = new Regex("FC\\d.*")
   
   private val Error = new Regex("E\\d.*")
   
   private val GroundedIntoDP = new Regex("\\d+\\((\\d)\\)\\d+")
   
   private val LinedIntoDP = new Regex("\\d\\(B\\)\\d+\\((\\d)\\)")
+  
+  private val ErrorOnFoulFly = new Regex("FLE\\d")
   
   private val GroundedIntoTP = new Regex("\\d+\\((\\d)\\)\\d+\\((\\d)\\)\\d+")
   
@@ -56,8 +62,15 @@ object BasicPlayParser {
   
   private def tryMore(s: String): List[Advancement] = {
     s match {
+      // According to play-by-play description file, advancement of
+      // the batter to first on a wild pitch strike three is always 
+      // given explicitly in the advancement section.
+      // ==> Here we can always assume the batter is out. 
+      case Strikeout() => Advancement.ofBatter(0)
       case Walk() => batterToFirst()
+      case FieldersChoice() => batterToFirst()
       case Error() => batterToFirst()
+      case "NP" => Nil
       case GroundedIntoDP(baseRunner) =>
         List(outAtNextBase(baseRunner), Advancement.ofBatter(-1))
       case LinedIntoDP(baseRunner) =>
@@ -70,6 +83,7 @@ object BasicPlayParser {
     s match {
       case "DGR" => List(Advancement.ofBatter(2))
       case "HP" => batterToFirst()
+      case ErrorOnFoulFly() => Nil
       case GroundedIntoTP(firstOut, secondOut) =>
         List(outAtNextBase(firstOut), outAtNextBase(secondOut), Advancement.ofBatter(-1))
       case LinedIntoTP(firstOut, secondOut) =>
