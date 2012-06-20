@@ -5,15 +5,18 @@ import scala.util.matching.Regex
 class Situation private (private val bases: Bases,
 						 private var outs: Int,
 						 private var runsScored: Int) {
-  
+
   def processEvent(batter: String, event: String) {
+    var batterHasBeenProcessed = false
     val parts = event.split("\\.")
-    var batterHasBeenProcessed = parts.length match {
-      case 1 => // TODO
-      case 2 => processAdvancementOfRunners(parts(2))
+    if (parts.length == 2) {
+      batterHasBeenProcessed = processAdvancementOfRunners(parts(1))
+    }
+    if (!batterHasBeenProcessed) {
+      processAdvancementOfBatter(parts(0))
     }
   }
-  
+
   private def processAdvancementOfRunners(adv: String): Boolean = {
     var batter = false
     val codes = adv.split(";")
@@ -26,14 +29,17 @@ class Situation private (private val bases: Bases,
     }
     return batter
   }
-  
+
+  private def processAdvancementOfBatter(adv: String) {
+    // TODO: Implement me.
+  }
+
 }
 
-
 object Situation {
-  
+
   def startOfInning() = {
     new Situation(Bases.empty(), 0, 0)
   }
-  
+
 }
