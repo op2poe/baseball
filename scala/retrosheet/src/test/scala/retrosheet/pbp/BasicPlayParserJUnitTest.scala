@@ -6,16 +6,20 @@ object BasicPlayParserJUnitTest extends App {
   println("OK")
   
   def testStraightForwardBaseHits() {
-    assert(BasicPlayParser.parse("S") == Advancement.ofBatter(1))
-    assert(BasicPlayParser.parse("S7") == Advancement.ofBatter(1))
-    assert(BasicPlayParser.parse("D8") == Advancement.ofBatter(2))
-    assert(BasicPlayParser.parse("D") == Advancement.ofBatter(2))
-    assert(BasicPlayParser.parse("T9") == Advancement.ofBatter(3))
-    assert(BasicPlayParser.parse("T") == Advancement.ofBatter(3))
-    assert(BasicPlayParser.parse("H") == Advancement.ofBatter(4))
-    assert(BasicPlayParser.parse("HR") == Advancement.ofBatter(4))
-    assert(BasicPlayParser.parse("H8") == Advancement.ofBatter(4))
-    assert(BasicPlayParser.parse("HR9") == Advancement.ofBatter(4))
+    oneAdvancement("S", Advancement.ofBatter(1))
+    oneAdvancement("S4", Advancement.ofBatter(1))
+    oneAdvancement("D", Advancement.ofBatter(2))
+    oneAdvancement("D7", Advancement.ofBatter(2))
+    oneAdvancement("T", Advancement.ofBatter(3))
+    oneAdvancement("T8", Advancement.ofBatter(3))
+    oneAdvancement("H", Advancement.ofBatter(4))
+    oneAdvancement("HR", Advancement.ofBatter(4))
+    oneAdvancement("H9", Advancement.ofBatter(4))
+    oneAdvancement("HR7", Advancement.ofBatter(4))
+  }
+  
+  private def oneAdvancement(s: String, expected: Advancement) {
+    assert(BasicPlayParser.parse(s) == List(expected))
   }
   
 }
