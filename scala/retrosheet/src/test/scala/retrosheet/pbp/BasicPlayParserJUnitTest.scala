@@ -7,6 +7,7 @@ object BasicPlayParserJUnitTest extends App {
   testGroundIntoDoublePlay()
   testLinedIntoDoublePlay()
   testGroundedIntoTriplePlay()
+  testLinedIntoTriplePlay()
   println("OK")
   
   def testStraightForwardBaseHits() {
@@ -48,6 +49,11 @@ object BasicPlayParserJUnitTest extends App {
   def testGroundedIntoTriplePlay() {
     threeAdvancements("5(2)54(1)3", 
         Advancement(2, -3), Advancement(1, -2), Advancement.ofBatter(-1))
+  }
+  
+  def testLinedIntoTriplePlay() {
+    threeAdvancements("1(B)16(2)63(1)",
+        Advancement(2, -3), Advancement(1, -2), Advancement.ofBatter(0))
   }
   
   private def threeAdvancements(s: String, exp1: Advancement, exp2: Advancement, 
