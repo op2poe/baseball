@@ -4,8 +4,10 @@ object BasicPlayParserJUnitTest extends App {
 
   testStraightForwardBaseHits()
   testStraightForwardFieldingOuts()
+  testWalks()
   testErrors()
   testGroundRuleDouble()
+  testHitByPitch()
   testGroundIntoDoublePlay()
   testLinedIntoDoublePlay()
   testGroundedIntoTriplePlay()
@@ -41,8 +43,19 @@ object BasicPlayParserJUnitTest extends App {
     oneAdvancement("E7", Advancement.ofBatter(1))
   }
   
+  def testWalks() {
+    oneAdvancement("I", Advancement.ofBatter(1))
+    oneAdvancement("IW", Advancement.ofBatter(1))
+    oneAdvancement("W", Advancement.ofBatter(1))
+    oneAdvancement("W+WP", Advancement.ofBatter(1))
+  }
+  
   def testGroundRuleDouble() {
     oneAdvancement("DGR", Advancement.ofBatter(2))
+  }
+  
+  def testHitByPitch() {
+    oneAdvancement("HP", Advancement.ofBatter(1))
   }
   
   def testGroundIntoDoublePlay() {

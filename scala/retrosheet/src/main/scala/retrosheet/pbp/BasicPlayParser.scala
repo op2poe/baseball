@@ -27,6 +27,8 @@ object BasicPlayParser {
 
   private val Homerun = new Regex("H(?:R)?(?:\\d\\d*)?")
   
+  private val Walk = new Regex("(?:(?:I)|(?:IW)|(?:W)).*")
+  
   private val Error = new Regex("E\\d.*")
   
   private val GroundedIntoDP = new Regex("\\d+\\((\\d)\\)\\d+")
@@ -44,7 +46,7 @@ object BasicPlayParser {
     // in Scala (supposedly being fixed in 2.10)
     s match {
       case FieldingOut() => Advancement.ofBatter(-1)
-      case Single() => Advancement.ofBatter(1)
+      case Single() => batterToFirst()
       case Double() => Advancement.ofBatter(2)
       case Triple() => Advancement.ofBatter(3)
       case Homerun() => Advancement.ofBatter(4)
@@ -54,22 +56,32 @@ object BasicPlayParser {
   
   private def tryMore(s: String): List[Advancement] = {
     s match {
-      case Error() => Advancement.ofBatter(1)
+      case Walk() => batterToFirst()
+      case Error() => batterToFirst()
       case GroundedIntoDP(baseRunner) =>
         List(outAtNextBase(baseRunner), Advancement.ofBatter(-1))
       case LinedIntoDP(baseRunner) =>
         List(outAtNextBase(baseRunner), Advancement.ofBatter(0))
+      case _ => tryMore2(s)
+    }
+  }
+  
+  private def tryMore2(s: String): List[Advancement] = {
+    s match {
       case "DGR" => List(Advancement.ofBatter(2))
+      case "HP" => batterToFirst()
       case GroundedIntoTP(firstOut, secondOut) =>
         List(outAtNextBase(firstOut), outAtNextBase(secondOut), Advancement.ofBatter(-1))
       case LinedIntoTP(firstOut, secondOut) =>
         List(outAtNextBase(firstOut), outAtNextBase(secondOut), Advancement.ofBatter(0))
-      case Interference() => Advancement.ofBatter(1)
+      case Interference() => batterToFirst()
       case _ => 
         Console.err.println("Unrecognized basic play: " + s)
         Nil
     }
   }
+
+  private def batterToFirst() = List(Advancement.ofBatter(1))
   
   private def outAtNextBase(base: String) = {
         val fromBase = base.toInt
