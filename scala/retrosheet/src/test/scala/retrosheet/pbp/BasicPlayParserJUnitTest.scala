@@ -3,6 +3,7 @@ package retrosheet.pbp
 object BasicPlayParserJUnitTest extends App {
 
   testStraightForwardBaseHits()
+  testGroundRuleDouble()
   println("OK")
   
   def testStraightForwardBaseHits() {
@@ -20,6 +21,10 @@ object BasicPlayParserJUnitTest extends App {
   
   private def oneAdvancement(s: String, expected: Advancement) {
     assert(BasicPlayParser.parse(s) == List(expected))
+  }
+  
+  def testGroundRuleDouble() {
+    oneAdvancement("DGR", Advancement.ofBatter(2))
   }
   
 }

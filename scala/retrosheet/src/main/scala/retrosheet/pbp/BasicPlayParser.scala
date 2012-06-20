@@ -15,22 +15,25 @@ import scala.util.matching.Regex
  */
 object BasicPlayParser {
 
-  private val Single = new Regex("S(?:\\d.*)?")
-  
-  private val Double = new Regex("D(?:\\d.*)?")
-  
-  private val Triple = new Regex("T(?:\\d.*)?")
-  
-  private val Homerun = new Regex("H(?:R)?(?:\\d.*)?")
-  
+  private val Single = new Regex("S(?:\\d\\d*)?")
+
+  private val Double = new Regex("D(?:\\d\\d*)?")
+
+  private val Triple = new Regex("T(?:\\d\\d*)?")
+
+  private val Homerun = new Regex("H(?:R)?(?:\\d\\d*)?")
+
   def parse(s: String): List[Advancement] = {
     s match {
       case Single() => List(Advancement.ofBatter(1))
       case Double() => List(Advancement.ofBatter(2))
       case Triple() => List(Advancement.ofBatter(3))
       case Homerun() => List(Advancement.ofBatter(4))
-      case _ => Nil
+      case "DGR" => List(Advancement.ofBatter(2))
+      case _ => 
+        Console.err.println("Unrecognized basic play: " + s)
+        Nil
     }
   }
-  
+
 }
