@@ -23,9 +23,11 @@ object BasicPlayParser {
 
   private val Homerun = new Regex("H(?:R)?(?:\\d\\d*)?")
   
-  private val GroundedIntoDP = new Regex("\\d\\d?\\((\\d)\\)\\d")
+  private val GroundedIntoDP = new Regex("\\d+\\((\\d)\\)\\d+")
   
   private val LinedIntoDP = new Regex("\\d\\(B\\)\\d+\\((\\d)\\)")
+  
+  private val GroundedIntoTP = new Regex("\\d+\\((\\d)\\)\\d+\\((\\d)\\)\\d+")
 
   def parse(s: String): List[Advancement] = {
     s match {
@@ -38,6 +40,8 @@ object BasicPlayParser {
       case LinedIntoDP(baseRunner) =>
         List(outAtNextBase(baseRunner), Advancement.ofBatter(0))
       case "DGR" => List(Advancement.ofBatter(2))
+      case GroundedIntoTP(firstOut, secondOut) =>
+        List(outAtNextBase(firstOut), outAtNextBase(secondOut), Advancement.ofBatter(-1))
       case _ => 
         Console.err.println("Unrecognized basic play: " + s)
         Nil
