@@ -4,11 +4,13 @@ object BasicPlayParserJUnitTest extends App {
 
   testStraightForwardBaseHits()
   testStraightForwardFieldingOuts()
+  testErrors()
   testGroundRuleDouble()
   testGroundIntoDoublePlay()
   testLinedIntoDoublePlay()
   testGroundedIntoTriplePlay()
   testLinedIntoTriplePlay()
+  testInterference()
   println("OK")
   
   def testStraightForwardBaseHits() {
@@ -31,6 +33,12 @@ object BasicPlayParserJUnitTest extends App {
   def testStraightForwardFieldingOuts() {
     oneAdvancement("5", Advancement.ofBatter(-1))
     oneAdvancement("43", Advancement.ofBatter(-1))
+    oneAdvancement("543", Advancement.ofBatter(-1))
+  }
+  
+  def testErrors() {
+    oneAdvancement("E1", Advancement.ofBatter(1))
+    oneAdvancement("E7", Advancement.ofBatter(1))
   }
   
   def testGroundRuleDouble() {
@@ -65,6 +73,12 @@ object BasicPlayParserJUnitTest extends App {
   private def threeAdvancements(s: String, exp1: Advancement, exp2: Advancement, 
       exp3: Advancement) {
     assert(BasicPlayParser.parse(s) == List(exp1, exp2, exp3))
+  }
+  
+  def testInterference() {
+    oneAdvancement("C/E1", Advancement.ofBatter(1))
+    oneAdvancement("C/E2", Advancement.ofBatter(1))
+    oneAdvancement("C/E3", Advancement.ofBatter(1))
   }
   
 }
