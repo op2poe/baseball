@@ -15,6 +15,8 @@ import scala.util.matching.Regex
  */
 object BasicPlayParser {
 
+  private val FieldingOut = new Regex("\\d\\d*")
+  
   private val Single = new Regex("S(?:\\d\\d*)?")
 
   private val Double = new Regex("D(?:\\d\\d*)?")
@@ -32,11 +34,20 @@ object BasicPlayParser {
   private val LinedIntoTP = new Regex("\\d\\(B\\)\\d+\\((\\d)\\)\\d+\\((\\d)\\)")
 
   def parse(s: String): List[Advancement] = {
+    // XXX: Split into multiple match expression to workaround bug
+    // in Scala (supposedly being fixed in 2.10)
     s match {
+      case FieldingOut() => List(Advancement.ofBatter(-1))
       case Single() => List(Advancement.ofBatter(1))
       case Double() => List(Advancement.ofBatter(2))
       case Triple() => List(Advancement.ofBatter(3))
       case Homerun() => List(Advancement.ofBatter(4))
+      case _ => tryMore(s)
+    }
+  }
+  
+  private def tryMore(s: String): List[Advancement] = {
+    s match {
       case GroundedIntoDP(baseRunner) =>
         List(outAtNextBase(baseRunner), Advancement.ofBatter(-1))
       case LinedIntoDP(baseRunner) =>

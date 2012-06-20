@@ -3,6 +3,7 @@ package retrosheet.pbp
 object BasicPlayParserJUnitTest extends App {
 
   testStraightForwardBaseHits()
+  testStraightForwardFieldingOuts()
   testGroundRuleDouble()
   testGroundIntoDoublePlay()
   testLinedIntoDoublePlay()
@@ -25,6 +26,11 @@ object BasicPlayParserJUnitTest extends App {
   
   private def oneAdvancement(s: String, expected: Advancement) {
     assert(BasicPlayParser.parse(s) == List(expected))
+  }
+  
+  def testStraightForwardFieldingOuts() {
+    oneAdvancement("5", Advancement.ofBatter(-1))
+    oneAdvancement("43", Advancement.ofBatter(-1))
   }
   
   def testGroundRuleDouble() {
