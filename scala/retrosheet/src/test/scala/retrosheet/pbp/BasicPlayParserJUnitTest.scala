@@ -4,6 +4,7 @@ object BasicPlayParserJUnitTest extends App {
 
   testStraightForwardBaseHits()
   testGroundRuleDouble()
+  testGroundIntoDoublePlay()
   println("OK")
   
   def testStraightForwardBaseHits() {
@@ -27,4 +28,13 @@ object BasicPlayParserJUnitTest extends App {
     oneAdvancement("DGR", Advancement.ofBatter(2))
   }
   
+  def testGroundIntoDoublePlay() {
+    twoAdvancements("64(1)3", Advancement(1, -2), Advancement.ofBatter(-1))
+    twoAdvancements("4(1)3", Advancement(1, -2), Advancement.ofBatter(-1))
+  }
+  
+  private def twoAdvancements(s: String, expectedFirst: Advancement, 
+      expectedSecond: Advancement) {
+    assert(BasicPlayParser.parse(s) == List(expectedFirst, expectedSecond))
+  }
 }
