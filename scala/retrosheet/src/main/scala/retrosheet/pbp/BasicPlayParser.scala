@@ -39,6 +39,8 @@ object BasicPlayParser {
   
   private val LinedIntoDP = new Regex("\\d\\(B\\)\\d+\\((\\d)\\)")
   
+  private val StolenBase = new Regex("((?:SB(?:\\d|H);?)+)")
+  
   private val ErrorOnFoulFly = new Regex("FLE\\d")
   
   private val GroundedIntoTP = new Regex("\\d+\\((\\d)\\)\\d+\\((\\d)\\)\\d+")
@@ -75,7 +77,21 @@ object BasicPlayParser {
         List(outAtNextBase(baseRunner), Advancement.ofBatter(-1))
       case LinedIntoDP(baseRunner) =>
         List(outAtNextBase(baseRunner), Advancement.ofBatter(0))
+      case StolenBase(sb) => parseStolenBaseEvent(sb)
       case _ => tryMore2(s)
+    }
+  }
+  
+  private def parseStolenBaseEvent(sb: String): List[Advancement] = {
+    val parts = sb.split(";")
+    parts.map(sbToAdvancement(_)).toList
+  }
+  
+  private def sbToAdvancement(sb: String): Advancement = {
+    sb match {
+      case "SB2" => Advancement(1, 2)
+      case "SB3" => Advancement(2, 3)
+      case "SBH" => Advancement(3, 4)
     }
   }
   

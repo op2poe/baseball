@@ -16,6 +16,7 @@ object BasicPlayParserJUnitTest extends App {
   testInterference()
   testErrorOnFlyBall()
   testNoPlay()
+  testStolenBases()
   println("OK")
   
   def testStraightForwardBaseHits() {
@@ -116,6 +117,14 @@ object BasicPlayParserJUnitTest extends App {
   
   def testNoPlay() {
     noAdvancement("NP")
+  }
+  
+  def testStolenBases() {
+    oneAdvancement("SB2", Advancement(1, 2))
+    twoAdvancements("SB2;SB3", Advancement(1, 2), Advancement(2, 3))
+    twoAdvancements("SB2;SBH", Advancement(1, 2), Advancement(3, 4))
+    threeAdvancements("SB2;SB3;SBH", Advancement(1, 2), Advancement(2, 3),
+        Advancement(3, 4))
   }
   
 }
