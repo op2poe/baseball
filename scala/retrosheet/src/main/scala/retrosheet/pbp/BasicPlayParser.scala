@@ -118,5 +118,5 @@ object BasicPlayParser {
         val toBase = -(fromBase + 1)
         Advancement(fromBase, toBase)
   }
-
+  
 }
