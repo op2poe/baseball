@@ -2,9 +2,9 @@ package retrosheet.pbp
 
 import scala.util.matching.Regex
 
-class Situation private (private val bases: Bases,
-						 private var outs: Int,
-						 private var runsScored: Int) {
+class Situation private (val bases: Bases,
+						 var outs: Int,
+						 var runsScored: Int) {
 
   def processEvent(batter: String, event: String): Unit = {
     // 1. Parse the basic play, and collect all advancements.
@@ -17,10 +17,7 @@ class Situation private (private val bases: Bases,
     val runners = if (parts.length == 2) parseAdvancementOfRunners(parts(1)) else Nil
     val map = toMap(basic) ++ toMap(runners)
     for (f <- 3 to 0 by -1) {
-      map.get(f) match {
-        case Some(a) => applyAdvancement(a)
-        case None => // Nothing to do.
-      }
+      map.get(f).foreach(applyAdvancement(_))
     }
   }
 
