@@ -18,6 +18,7 @@ object AdvancementJUnitTest extends App {
   testBatterOutAtSecond()
   ensureRunnertoAdvanceIsOnBase()
   ensureWeDontPutTwoRunnerOnSameBase()
+  ensureOutsAreDetected()
   println("OK")
 
   def testRunnersOn() {
@@ -142,5 +143,15 @@ object AdvancementJUnitTest extends App {
     a.applyTo(b)
     assert(b.runnersOn == 1)
     assert(b.second == ruth)
-  }  
+  }
+  
+  def ensureOutsAreDetected() {
+    assert(Advancement.ofBatter(0).isOut)
+    assert(!Advancement.ofBatter(1).isOut)
+    assert(Advancement.ofBatter(-1).isOut)
+    assert(Advancement(1, -2).isOut)
+    assert(!Advancement(1, 2).isOut)
+    assert(!Advancement(1, 1).isOut)
+  }
+  
 }
