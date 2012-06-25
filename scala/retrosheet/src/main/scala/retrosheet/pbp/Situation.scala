@@ -17,7 +17,9 @@ class Situation private (private val bases: Bases,
     val map = HashMap[Int, Advancement]()
     val parts = event.split("\\.")
     addToMap(map, BasicPlayParser.parse(parts(0)))
-    addToMap(map, processAdvancementOfRunners(parts(1)))
+    if (parts.length == 2) {
+      addToMap(map, processAdvancementOfRunners(parts(1)))
+    }
     for (f <- 0 until 4) {
       map.get(f) match {
         case Some(a) => applyAdvancement(a)
