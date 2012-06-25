@@ -96,6 +96,7 @@ object BasicPlayParser {
   
   private def tryMore2(s: String): List[Advancement] = {
     s match {
+      case "OA" => Nil
       case "DGR" => List(Advancement.ofBatter(2))
       case "HP" => batterToFirst()
       case ErrorOnFoulFly() => Nil
