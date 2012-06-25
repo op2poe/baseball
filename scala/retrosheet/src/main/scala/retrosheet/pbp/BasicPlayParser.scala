@@ -27,7 +27,7 @@ object BasicPlayParser {
 
   private val Homerun = new Regex("H(?:R)?(?:\\d\\d*)?")
   
-  private val Strikeout = new Regex("K(?:\\+.*)")
+  private val Strikeout = new Regex("K(?:\\+.*)?")
   
   private val Walk = new Regex("(?:(?:I)|(?:IW)|(?:W)).*")
   
@@ -46,19 +46,18 @@ object BasicPlayParser {
   private val GroundedIntoTP = new Regex("\\d+\\((\\d)\\)\\d+\\((\\d)\\)\\d+")
   
   private val LinedIntoTP = new Regex("\\d\\(B\\)\\d+\\((\\d)\\)\\d+\\((\\d)\\)")
-
-  private val Interference = new Regex("C/E\\d")
   
   def parse(s: String): List[Advancement] = {
     // XXX: Split into multiple match expression to workaround bug
     // in Scala (supposedly being fixed in 2.10)
-    s match {
+    val toParse = s.split("/")(0)
+    toParse match {
       case FieldingOut() => Advancement.ofBatter(-1)
       case Single() => batterToFirst()
       case Double() => Advancement.ofBatter(2)
       case Triple() => Advancement.ofBatter(3)
       case Homerun() => Advancement.ofBatter(4)
-      case _ => tryMore(s)
+      case _ => tryMore(toParse)
     }
   }
   
@@ -104,7 +103,7 @@ object BasicPlayParser {
         List(outAtNextBase(firstOut), outAtNextBase(secondOut), Advancement.ofBatter(-1))
       case LinedIntoTP(firstOut, secondOut) =>
         List(outAtNextBase(firstOut), outAtNextBase(secondOut), Advancement.ofBatter(0))
-      case Interference() => batterToFirst()
+      case "C" => batterToFirst()
       case _ => 
         Console.err.println("Unrecognized basic play: " + s)
         Nil

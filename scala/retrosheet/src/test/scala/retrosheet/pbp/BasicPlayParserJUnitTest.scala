@@ -5,6 +5,7 @@ object BasicPlayParserJUnitTest extends App {
   testStraightForwardBaseHits()
   testStraightForwardFieldingOuts()
   testWalks()
+  testStrikeouts()
   testFieldersChoice()
   testErrors()
   testGroundRuleDouble()
@@ -40,6 +41,7 @@ object BasicPlayParserJUnitTest extends App {
     oneAdvancement("5", Advancement.ofBatter(-1))
     oneAdvancement("43", Advancement.ofBatter(-1))
     oneAdvancement("543", Advancement.ofBatter(-1))
+    oneAdvancement("23/SH", Advancement.ofBatter(-1))
   }
   
   def testFieldersChoice() {
