@@ -6,7 +6,7 @@ object AdvancementParser {
 
   private var runnerAdvance = new Regex("(\\d)-(\\d|H).*")
   
-  private var runnerOut = new Regex("(\\d)X(\\d|H)")
+  private var runnerOut = new Regex("(\\d)X(\\d|H).*")
 
   private var batterAdvance = new Regex("B-(\\d|H).*")
   
