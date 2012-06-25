@@ -16,7 +16,7 @@ class Situation private (private val bases: Bases,
     val basic = BasicPlayParser parse parts(0)
     val runners = if (parts.length == 2) parseAdvancementOfRunners(parts(1)) else Nil
     val map = toMap(basic) ++ toMap(runners)
-    for (f <- 0 until 4) {
+    for (f <- 3 to 0 by -1) {
       map.get(f) match {
         case Some(a) => applyAdvancement(a)
         case None => // Nothing to do.
