@@ -18,6 +18,7 @@ object BasicPlayParserJUnitTest extends App {
   testErrorOnFlyBall()
   testNoPlay()
   testStolenBases()
+  testCaughtStealing()
   println("OK")
   
   def testStraightForwardBaseHits() {
@@ -127,6 +128,12 @@ object BasicPlayParserJUnitTest extends App {
     twoAdvancements("SB2;SBH", Advancement(1, 2), Advancement(3, 4))
     threeAdvancements("SB2;SB3;SBH", Advancement(1, 2), Advancement(2, 3),
         Advancement(3, 4))
+  }
+  
+  def testCaughtStealing() {
+    oneAdvancement("CS2(24)", Advancement(1, -2))
+    oneAdvancement("CS3(25)", Advancement(2, -3))
+    oneAdvancement("CSH(12)", Advancement(3, -4))
   }
   
 }
