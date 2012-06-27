@@ -57,16 +57,28 @@ object BasicPlayParser {
   
   private val LinedIntoTP = new Regex("\\d\\(B\\)\\d+\\((\\d)\\)\\d+\\((\\d)\\)")
   
-  private val Interference = new Regex("C/E\\d")
-  
   def parse(s: String): List[Advancement] = {
+    // We need the "/FO" part to recognize a force out. For all other plays,
+    // however, we are not interested in the modifier part ("/.*"). Handle
+    // those two cases separately.
     s match {
+      case ForceOut(baseRunner) =>
+        List(outAtNextBase(baseRunner), Advancement.ofBatter(1))
+      case _ => parseNonForceOut(s)
+    }
+  }
+  
+  private def parseNonForceOut(s: String): List[Advancement] = {
+    val toParse = s.split("/")(0)
+    // Split up in to several match expressions (tryMore, tryMore1, etc),
+    // to work around Scala bug.
+    toParse match {
       case FieldingOut() => Advancement.ofBatter(-1)
       case Single() => batterToFirst()
       case Double() => Advancement.ofBatter(2)
       case Triple() => Advancement.ofBatter(3)
       case Homerun() => Advancement.ofBatter(4)
-      case _ => tryMore(s)
+      case _ => tryMore(toParse)
     }
   }
   
@@ -81,8 +93,6 @@ object BasicPlayParser {
       case FieldersChoice() => batterToFirst()
       case Error() => batterToFirst()
       case "NP" => Nil
-      case ForceOut(baseRunner) =>
-        List(outAtNextBase(baseRunner), Advancement.ofBatter(1))
       case GroundedIntoDP(baseRunner) =>
         List(outAtNextBase(baseRunner), Advancement.ofBatter(-1))
       case LinedIntoDP(baseRunner) =>
@@ -138,7 +148,7 @@ object BasicPlayParser {
         List(outAtNextBase(firstOut), outAtNextBase(secondOut), Advancement.ofBatter(-1))
       case LinedIntoTP(firstOut, secondOut) =>
         List(outAtNextBase(firstOut), outAtNextBase(secondOut), Advancement.ofBatter(0))
-      case Interference() => batterToFirst()
+      case "C" => batterToFirst()
       case _ => 
         Console.err.println("Unrecognized basic play: " + s)
         Nil
