@@ -21,6 +21,7 @@ object BasicPlayParserJUnitTest extends App {
   testCaughtStealing()
   testPickedOff()
   testPickedOffChargedAsCaughtStealing()
+  testForceouts()
   println("OK")
   
   def testStraightForwardBaseHits() {
@@ -159,6 +160,10 @@ object BasicPlayParserJUnitTest extends App {
     oneAdvancement("POCS2(1361)", Advancement(2, -2))
     oneAdvancement("POCS3", Advancement(3, -3))
     oneAdvancement("POCS3(152)", Advancement(3, -3))
+  }
+  
+  def testForceouts() {
+    twoAdvancements("54(1)/FO", Advancement(1, -2), Advancement.ofBatter(1))
   }
   
 }
