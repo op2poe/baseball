@@ -45,6 +45,8 @@ object BasicPlayParser {
   
   private val PickedOff = new Regex("PO(\\d)(?:\\(\\d\\d\\))?")
   
+  private val PickedOffCaughtStealing = new Regex("POCS(\\d)(?:\\(\\d\\d+\\))?")
+  
   private val ErrorOnPickOffAttempt = new Regex("PO\\d\\(E\\d\\)")
   
   private val ErrorOnFoulFly = new Regex("FLE\\d")
@@ -117,6 +119,7 @@ object BasicPlayParser {
       case StolenBase(sb) => parseStolenBaseEvent(sb)
       case CaughtStealing(base) => csToAdvancement(base)
       case PickedOff(base) => poToAdvancement(base)
+      case PickedOffCaughtStealing(base) => poToAdvancement(base) // Same as PO as far as we are concerned
       case ErrorOnPickOffAttempt() => Nil
       case "OA" => Nil
       case "DGR" => List(Advancement.ofBatter(2))
