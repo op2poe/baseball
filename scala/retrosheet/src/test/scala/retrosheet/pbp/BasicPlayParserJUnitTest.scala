@@ -90,6 +90,7 @@ object BasicPlayParserJUnitTest extends App {
   def testLinedIntoDoublePlay() {
     twoAdvancements("8(B)84(2)", Advancement(2, -3), Advancement.ofBatter(0))
     twoAdvancements("3(B)3(1)", Advancement(1, -2), Advancement.ofBatter(0))
+    twoAdvancements("5(2)3(B)", Advancement(2, -3), Advancement.ofBatter(0))
   }
   
   def testGroundedIntoTriplePlay() {

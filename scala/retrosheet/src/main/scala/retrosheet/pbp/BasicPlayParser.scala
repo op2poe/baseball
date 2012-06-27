@@ -41,6 +41,8 @@ object BasicPlayParser {
   
   private val LinedIntoDP = new Regex("\\d\\(B\\)\\d+\\((\\d)\\)")
   
+  private val LinedIntoDP2 = new Regex("\\d\\((\\d)\\)\\d+\\(B\\)")
+  
   private val StolenBase = new Regex("((?:SB(?:\\d|H);?)+)")
   
   private val CaughtStealing = new Regex("CS(\\d|H)(?:\\(\\d\\d+\\))?.*")
@@ -96,6 +98,8 @@ object BasicPlayParser {
       case GroundedIntoDP(baseRunner) =>
         List(outAtNextBase(baseRunner), Advancement.ofBatter(-1))
       case LinedIntoDP(baseRunner) =>
+        List(outAtNextBase(baseRunner), Advancement.ofBatter(0))
+      case LinedIntoDP2(baseRunner) =>
         List(outAtNextBase(baseRunner), Advancement.ofBatter(0))
       case _ => tryMore2(s)
     }
