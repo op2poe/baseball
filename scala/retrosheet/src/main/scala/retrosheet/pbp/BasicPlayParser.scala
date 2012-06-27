@@ -41,7 +41,7 @@ object BasicPlayParser {
   
   private val StolenBase = new Regex("((?:SB(?:\\d|H);?)+)")
   
-  private val CaughtStealing = new Regex("CS(\\d|H)(?:\\(\\d\\d\\))?.*")
+  private val CaughtStealing = new Regex("CS(\\d|H)(?:\\(\\d\\d+\\))?.*")
   
   private val PickedOff = new Regex("PO(\\d)(?:\\(\\d\\d\\))?")
   
