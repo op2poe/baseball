@@ -41,7 +41,11 @@ object BasicPlayParser {
   
   private val StolenBase = new Regex("((?:SB(?:\\d|H);?)+)")
   
-  private val CaughtStealing = new Regex("CS(\\d|H)\\(\\d\\d\\).*")
+  private val CaughtStealing = new Regex("CS(\\d|H)(?:\\(\\d\\d\\))?.*")
+  
+  private val PickedOff = new Regex("PO(\\d)(?:\\(\\d\\d\\))?")
+  
+  private val ErrorOnPickOffAttempt = new Regex("PO\\d\\(E\\d\\)")
   
   private val ErrorOnFoulFly = new Regex("FLE\\d")
   
@@ -78,8 +82,6 @@ object BasicPlayParser {
         List(outAtNextBase(baseRunner), Advancement.ofBatter(-1))
       case LinedIntoDP(baseRunner) =>
         List(outAtNextBase(baseRunner), Advancement.ofBatter(0))
-      case StolenBase(sb) => parseStolenBaseEvent(sb)
-      case CaughtStealing(base) => csToAdvancement(base)
       case _ => tryMore2(s)
     }
   }
@@ -105,11 +107,26 @@ object BasicPlayParser {
     }
   }
   
+  private def poToAdvancement(base: String) = {
+    val b = base.toInt
+    Advancement(b, -b)
+  }
+  
   private def tryMore2(s: String): List[Advancement] = {
     s match {
+      case StolenBase(sb) => parseStolenBaseEvent(sb)
+      case CaughtStealing(base) => csToAdvancement(base)
+      case PickedOff(base) => poToAdvancement(base)
+      case ErrorOnPickOffAttempt() => Nil
       case "OA" => Nil
       case "DGR" => List(Advancement.ofBatter(2))
       case "HP" => batterToFirst()
+      case _ => tryMore3(s)
+    }
+  }
+
+  private def tryMore3(s: String): List[Advancement] = {
+    s match {
       case ErrorOnFoulFly() => Nil
       case GroundedIntoTP(firstOut, secondOut) =>
         List(outAtNextBase(firstOut), outAtNextBase(secondOut), Advancement.ofBatter(-1))
@@ -119,9 +136,10 @@ object BasicPlayParser {
       case _ => 
         Console.err.println("Unrecognized basic play: " + s)
         Nil
-    }
+    }    
   }
 
+  
   private def batterToFirst() = List(Advancement.ofBatter(1))
   
   private def outAtNextBase(base: String) = {

@@ -19,6 +19,7 @@ object BasicPlayParserJUnitTest extends App {
   testNoPlay()
   testStolenBases()
   testCaughtStealing()
+  testPickedOff()
   println("OK")
   
   def testStraightForwardBaseHits() {
@@ -131,9 +132,23 @@ object BasicPlayParserJUnitTest extends App {
   }
   
   def testCaughtStealing() {
+    oneAdvancement("CS2", Advancement(1, -2))
     oneAdvancement("CS2(24)", Advancement(1, -2))
     oneAdvancement("CS3(25)", Advancement(2, -3))
     oneAdvancement("CSH(12)", Advancement(3, -4))
+  }
+  
+  def testPickedOff() {
+    oneAdvancement("PO1", Advancement(1, -1))
+    oneAdvancement("PO1(13)", Advancement(1, -1))
+    oneAdvancement("PO2", Advancement(2, -2))
+    oneAdvancement("PO2(14)", Advancement(2, -2))
+    oneAdvancement("PO3", Advancement(3, -3))
+    oneAdvancement("PO3(15)", Advancement(3, -3))
+    // The following tests that we do not produce an Advancement from the
+    // Basic Play part of a botched pickoff event. There *will* be an advancement,
+    // but it's given explicitly in the Advancement part of the event.
+    noAdvancement("PO1(E3)");
   }
   
 }

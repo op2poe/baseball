@@ -19,6 +19,7 @@ object AdvancementJUnitTest extends App {
   ensureRunnertoAdvanceIsOnBase()
   ensureWeDontPutTwoRunnerOnSameBase()
   ensureOutsAreDetected()
+  testRunnerPickedOff()
   println("OK")
 
   def testRunnersOn() {
@@ -152,6 +153,16 @@ object AdvancementJUnitTest extends App {
     assert(Advancement(1, -2).isOut)
     assert(!Advancement(1, 2).isOut)
     assert(!Advancement(1, 1).isOut)
+  }
+  
+  def testRunnerPickedOff() {
+    val b = Bases.empty
+    b.first = ruth
+    val a = Advancement(1, -1)
+    a.applyTo(b)
+    assert(!b.isOccupied(1))
+    assert(b.runnersOn == 0)
+    assert(a.isOut)
   }
   
 }
