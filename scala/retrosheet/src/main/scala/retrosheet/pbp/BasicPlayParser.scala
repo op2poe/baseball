@@ -60,13 +60,14 @@ object BasicPlayParser {
   private val LinedIntoTP = new Regex("\\d\\(B\\)\\d+\\((\\d)\\)\\d+\\((\\d)\\)")
   
   def parse(s: String): List[Advancement] = {
+    val toParse = s.split("#")(0)
     // We need the "/FO" part to recognize a force out. For all other plays,
     // however, we are not interested in the modifier part ("/.*"). Handle
     // those two cases separately.
-    s match {
+    toParse match {
       case ForceOut(baseRunner) =>
         List(outAtNextBase(baseRunner), Advancement.ofBatter(1))
-      case _ => parseNonForceOut(s)
+      case _ => parseNonForceOut(toParse)
     }
   }
   
