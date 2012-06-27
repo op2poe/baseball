@@ -3,7 +3,7 @@ package retrosheet.pbp
 object BostonAtBrooklyn19210417 extends App {
 
   val p = new Processor()
-  p.processFile("C:\\z\\coding\\bb\\retrosheet\\play-by-play\\1921\\1921BOS.evA")
+  p.processFile("C:\\z\\coding\\bb\\retrosheet\\play-by-play\\1921\\1921BRO.EVN")
   
   class Processor extends GameProcessor {
 
